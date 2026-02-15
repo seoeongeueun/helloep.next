@@ -1,0 +1,9 @@
+@font-face {
+  font-family: pretendard;
+  src: url("/fonts/PretendardVariable.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: inter;
+  src: url("/fonts/Inter-Variable.ttf") format("truetype");
+}
