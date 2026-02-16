@@ -4,3 +4,4 @@ export { SearchBar } from "./SearchBar";
 export { Dropdown } from "./Dropdown";
 export { Results } from "./Results";
 export { Tag } from "./Tag";
+export { Spinner } from "./Spinner";
