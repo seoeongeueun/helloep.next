@@ -9,3 +9,8 @@ export function decodeHtmlEntities(text: string): string {
     .replace(/&#039;/g, "'")
     .replace(/&#x27;/g, "'");
 }
+
+//string의 html 태그 제거
+export function stripHtmlTags(text: string): string {
+  return text.replace(/<[^>]*>/g, "");
+}
