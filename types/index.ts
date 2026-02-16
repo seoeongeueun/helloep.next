@@ -12,12 +12,16 @@ export interface WPPost {
     rendered: string;
   };
   categories: number[];
+  tags: number[];
   jetpack_featured_media_url: string;
 }
 
-//카테고리 정보
-export interface WPCategory {
+//카테고리 및 태그 정보 (공용 사용)
+export interface WPCategoryAndTag {
   id: number;
   name: string;
   slug: string;
 }
+
+//목록 뷰 타입
+export type ViewMode = "grid" | "list";
