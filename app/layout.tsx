@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-query";
 import SideBar from "@/components/SideBar";
 import QueryProvider from "@/query/QueryProvider";
-import { categoriesQueries } from "@/query/categoriesQuery";
+import { categoriesQueries, tagsQueries } from "@/query";
 import "@/styles/index.css";
 
 export const metadata: Metadata = {
@@ -21,8 +21,11 @@ export default async function RootLayout({
 }>) {
   const queryClient = new QueryClient();
 
-  // 카테고리 데이터를 미리 패칭하여 초기 상태로 제공
-  await queryClient.prefetchQuery(categoriesQueries.all());
+  // 카테고리와 태그 데이터를 미리 패칭하여 초기 상태로 제공
+  await Promise.all([
+    queryClient.prefetchQuery(categoriesQueries.all()),
+    queryClient.prefetchQuery(tagsQueries.all()),
+  ]);
 
   return (
     <html lang="en">
