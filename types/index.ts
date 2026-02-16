@@ -14,3 +14,10 @@ export interface WPPost {
   categories: number[];
   jetpack_featured_media_url: string;
 }
+
+//카테고리 정보
+export interface WPCategory {
+  id: number;
+  name: string;
+  slug: string;
+}
