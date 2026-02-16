@@ -6,7 +6,7 @@ export default function Home() {
     <div className="flex flex-col border-r border-px border-gray w-full h-full overflow-y-auto">
       <Header />
       <Filters />
-      <CardList />
+      <CardList viewMode="list" />
     </div>
   );
 }
