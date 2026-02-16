@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import SideBar from "@/components/SideBar";
+import QueryProvider from "@/providers/QueryProvider";
 import "@/styles/index.css";
 
 export const metadata: Metadata = {
@@ -15,8 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased font-normal text-s flex flex-row gap-spacing-10 w-full">
-        {children}
-        <SideBar />
+        <QueryProvider>
+          {children}
+          <SideBar />
+        </QueryProvider>
       </body>
     </html>
   );
