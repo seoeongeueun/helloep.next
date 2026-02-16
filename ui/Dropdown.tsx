@@ -48,7 +48,7 @@ export function Dropdown() {
         />
       </button>
       <ul
-        className={`absolute w-full bg-secondary px-margin-s max-h-40 overflow-auto border-b border-b-gray z-20 ${isOpen ? "open" : "closed"}`}
+        className={`absolute w-full bg-secondary px-margin-s max-h-40 overflow-auto border-b border-b-gray z-20 ${isOpen ? "open pointer-events-auto" : "closed pointer-events-none"}`}
       >
         {dropdownOptions.map((option) => (
           <li key={option.value} className="hover:bg-selected cursor-pointer">

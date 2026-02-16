@@ -5,7 +5,7 @@ export function SearchBar() {
   return (
     <div className="flex flex-row justify-between gap-4">
       <form
-        className="flex flex-row bg-secondary border-b border-gray px-margin py-1 w-1/2"
+        className="flex flex-row bg-secondary border-b border-gray px-margin py-2 w-1/2"
         role="search"
         aria-label="검색"
       >
