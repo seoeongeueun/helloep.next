@@ -1,27 +1,42 @@
-import Image from "next/image";
+"use client";
 
-//TODO: 임시로 하드코딩 필터링 => 나중에 api로 받아올 예정
-const filters: { name: string; value: string }[] = [
-  { name: "All", value: "all" },
-  { name: "Graphic", value: "graphic" },
-  { name: "Editorial", value: "editorial" },
-  { name: "Website", value: "website" },
-];
+import Image from "next/image";
+import { useQuery } from "@tanstack/react-query";
+import { categoriesQueries } from "@/query/categoriesQuery";
+import { useState } from "react";
 
 export function Filters() {
+  const [activeCategory, setActiveCategory] = useState<number | null>(null);
+  const { data: categories = [] } = useQuery(categoriesQueries.all());
+
+  const handleCategoryClick = (categoryId: number | null) => {
+    //TODO: 필터링 로직 추가 필요
+    setActiveCategory(categoryId);
+  };
+
   return (
     <nav
       className="sticky top-headerH px-margin py-2 backdrop-blur-[2px] bg-black-80 text-m flex flex-row itmes-start justify-between z-50"
       aria-label="필터"
     >
       <ul className="flex flex-wrap gap-x-4" aria-label="필터 목록">
-        {filters.map((filter) => (
-          <li key={filter.value}>
+        <li>
+          <button
+            type="button"
+            className={activeCategory === null ? "active" : ""}
+            onClick={() => handleCategoryClick(null)}
+          >
+            All
+          </button>
+        </li>
+        {categories.map((category) => (
+          <li key={category.id}>
             <button
               type="button"
-              className={`${filter.value === "all" ? "active" : ""}`}
+              className={activeCategory === category.id ? "active" : ""}
+              onClick={() => handleCategoryClick(category.id)}
             >
-              {filter.name}
+              {category.name}
             </button>
           </li>
         ))}
