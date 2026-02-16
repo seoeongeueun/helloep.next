@@ -17,10 +17,14 @@ export interface WPPost {
 }
 
 //카테고리 및 태그 정보 (공용 사용)
-export interface WPCategoryAndTag {
+export interface WPTag {
   id: number;
   name: string;
   slug: string;
+}
+
+export interface WPCategory extends WPTag {
+  color?: string; //카테고리 description에서 받아올 색상 정보 추가
 }
 
 //목록 뷰 타입
