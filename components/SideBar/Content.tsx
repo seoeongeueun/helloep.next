@@ -2,9 +2,8 @@
 import Caption from "@/components/Caption";
 import Figures from "@/components/Figures";
 import { useAppState } from "@/context/AppStateContext";
-import type { WPPost } from "@/types";
 
-//TOOD: 타입 수정 필요!
+//TODO: 타입 수정 필요!
 export default function Content({ defaultData }: { defaultData?: any }) {
   const { selectedProjectId } = useAppState();
 
