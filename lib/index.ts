@@ -5,3 +5,4 @@ export {
   stripHtmlTags,
   extractEnglishTitle,
 } from "./helpers";
+export { POSTS_PER_PAGE } from "./constants";
