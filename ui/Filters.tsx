@@ -12,10 +12,14 @@ export function Filters() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const currentFilter = searchParams.get("category") || null;
+  const currentFilter = searchParams.get("category");
 
   const handleCategoryClick = (categoryName: string | null) => {
     const params = new URLSearchParams(searchParams.toString());
+
+    // 카테고리 바꾸면 page는 리셋
+    params.delete("page");
+
     if (categoryName === null) {
       params.delete("category");
     } else {
