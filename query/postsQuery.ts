@@ -4,12 +4,11 @@ import { POSTS_PER_PAGE } from "@/lib";
 
 const postsKey = {
   all: ["posts"] as const,
-  list: (page?: number) =>
-    [...postsKey.all, "list", { page: page ?? 1 }] as const,
-  search: (query: string, page?: number) =>
-    [...postsKey.all, "search", { page: page ?? 1, query }] as const,
-  category: (categoryId: number, page?: number) =>
-    [...postsKey.all, "category", { page: page ?? 1, categoryId }] as const,
+  list: (page = 1) => [...postsKey.all, "list", page] as const,
+  search: (query: string, page = 1) =>
+    [...postsKey.all, "search", query, page] as const,
+  category: (categoryId: number, page = 1) =>
+    [...postsKey.all, "category", categoryId, page] as const,
 };
 
 /**

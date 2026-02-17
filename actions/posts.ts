@@ -1,7 +1,12 @@
 "use server";
 
 import { ApiError, apiRequestWithHeaders } from "@/lib/apiRequest";
-import { WP_BASE_URL, decodeHtmlEntities, extractEnglishTitle } from "@/lib";
+import {
+  WP_BASE_URL,
+  decodeHtmlEntities,
+  extractEnglishTitle,
+  POSTS_PER_PAGE,
+} from "@/lib";
 import { WPPost, PostListResponse } from "@/types";
 
 //전체 응답 데이터 중 posts 필드만 추출하는 타입 정의
@@ -11,17 +16,38 @@ type WPApiResponse = {
   [key: string]: unknown;
 };
 
+// 타입에 따라서 호출하는 기준이 다르기 때문에 별도의 optional 인터페이스로 정의
+type GetPostsParams = {
+  perPage?: number;
+  page?: number;
+  search?: string;
+  categoryId?: number;
+};
+
 export async function getPosts(
-  number: number = 10,
-  page: number = 1,
+  params: GetPostsParams = {},
 ): Promise<PostListResponse> {
+  const { perPage = POSTS_PER_PAGE, page = 1, search, categoryId } = params;
   let data: WPApiResponse | WPPost[];
   let totalFromHeader: number | null = null;
   let totalPagesFromHeader: number | null = null;
 
   try {
+    const query = new URLSearchParams({
+      number: String(perPage),
+      page: String(page),
+    });
+
+    if (typeof search === "string" && search.trim()) {
+      query.set("search", search.trim());
+    }
+
+    if (typeof categoryId === "number") {
+      query.set("categories", String(categoryId));
+    }
+
     const response = await apiRequestWithHeaders<WPApiResponse | WPPost[]>(
-      `${WP_BASE_URL}/posts?number=${number}&page=${page}`,
+      `${WP_BASE_URL}/posts?${query.toString()}`,
     );
     data = response.data;
 
@@ -81,7 +107,7 @@ export async function getPosts(
     totalCount = totalFromHeader;
   }
 
-  const fallbackTotalPages = Math.max(1, Math.ceil(totalCount / number));
+  const fallbackTotalPages = Math.max(1, Math.ceil(totalCount / perPage));
   const totalPages =
     typeof totalPagesFromHeader === "number" &&
     Number.isFinite(totalPagesFromHeader)

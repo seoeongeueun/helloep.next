@@ -1,22 +1,54 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import Card from "./Card";
 import List from "./List";
 import { SearchBar } from "@/ui";
 import { WPPost } from "@/types";
-import type { ViewMode } from "@/types";
+import type { ViewMode, PostListResponse } from "@/types";
 import { postsQueries } from "@/query";
 import { useQuery } from "@tanstack/react-query";
+import type { UseQueryOptions } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import Pagination from "./Pagination";
 import clsx from "clsx";
+import { categoriesQueries } from "@/query";
 
 export default function CardList({ viewMode }: { viewMode: ViewMode }) {
   const searchParams = useSearchParams();
   const currentPage = Math.max(Number(searchParams.get("page")) || 1, 1);
 
-  const { data, isLoading, isError } = useQuery(postsQueries.list(currentPage));
+  // url의 카테고리 params를 텍스트로 유지하기 위해서 query를 보내기 전에 카테고리 명으로 id를 찾아서 보내는 과정을 거친다
+  const categoryParam = searchParams.get("category");
+  const { data: categories = [], isLoading: isCategoriesLoading } = useQuery(
+    categoriesQueries.all(),
+  );
+  const activeCategoryId =
+    categories.find(
+      (cat) => cat.name.toLowerCase() === categoryParam?.toLowerCase(),
+    )?.id ?? null;
+
+  // categoryParam이 있는데 categories가 아직 로드 중이면 쿼리를 비활성화
+  const shouldEnableQuery = !categoryParam || !isCategoriesLoading;
+
+  // postsQuery는 현재 페이지와 선택된 카테고리에 따라 적절한 쿼리를 선택하여 게시글 데이터를 가져오는 역할을 한다
+  const postsQuery = useMemo(() => {
+    const query =
+      activeCategoryId === null
+        ? postsQueries.list(currentPage)
+        : postsQueries.category(activeCategoryId, currentPage);
+    return {
+      ...query,
+      enabled: shouldEnableQuery,
+    } as UseQueryOptions<
+      PostListResponse,
+      Error,
+      PostListResponse,
+      readonly unknown[]
+    >;
+  }, [currentPage, activeCategoryId, shouldEnableQuery]);
+
+  const { data, isLoading, isError } = useQuery(postsQuery);
 
   useEffect(() => {
     requestAnimationFrame(() => {
@@ -27,7 +59,7 @@ export default function CardList({ viewMode }: { viewMode: ViewMode }) {
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
     });
-  }, [currentPage]);
+  }, [currentPage, activeCategoryId]);
 
   const renderSkeleton = () => {
     const skeletonItems = Array.from({ length: 10 }).map((_, i) => (
@@ -79,7 +111,7 @@ export default function CardList({ viewMode }: { viewMode: ViewMode }) {
       <SearchBar />
       <section
         className={clsx(
-          "flex flex-wrap w-full py-[5rem] gap-spacing-10",
+          "flex flex-wrap w-full py-20 gap-spacing-10",
           {
             "grid-cols-1 phone_large:grid-cols-2 tablet:grid-cols-4": isLoading,
           },
