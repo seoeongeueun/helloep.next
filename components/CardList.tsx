@@ -72,10 +72,9 @@ export default function CardList({ viewMode }: { viewMode: ViewMode }) {
             "gap-x-spacing-10 py-[5rem]": viewMode === "grid",
           },
           {
-            "gap-y-spacing-10 grid-cols-1 phone_large:grid-cols-2 tablet:grid-cols-4":
-              isLoading,
+            "grid-cols-1 phone_large:grid-cols-2 tablet:grid-cols-4": isLoading,
           },
-          { grid: viewMode === "grid" },
+          { "grid gap-y-spacing-10": viewMode === "grid" },
         )}
       >
         {isLoading ? renderSkeleton() : renderPosts()}
