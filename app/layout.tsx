@@ -4,7 +4,7 @@ import {
   dehydrate,
   HydrationBoundary,
 } from "@tanstack/react-query";
-import SideBar from "@/components/SideBar";
+import SideBar from "@/components/SideBar/SideBar";
 import QueryProvider from "@/query/QueryProvider";
 import { categoriesQueries, tagsQueries } from "@/query";
 import { AppStateProvider } from "@/context/AppStateContext";
