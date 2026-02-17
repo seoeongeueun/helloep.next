@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Card from "./Card";
 import List from "./List";
 import { SearchBar } from "@/ui";
@@ -16,6 +17,17 @@ export default function CardList({ viewMode }: { viewMode: ViewMode }) {
   const currentPage = Math.max(Number(searchParams.get("page")) || 1, 1);
 
   const { data, isLoading, isError } = useQuery(postsQueries.list(currentPage));
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      const scrollContainer = document.getElementById("main-scroll");
+      if (scrollContainer) {
+        scrollContainer.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    });
+  }, [currentPage]);
 
   const renderSkeleton = () => {
     const skeletonItems = Array.from({ length: 10 }).map((_, i) => (
