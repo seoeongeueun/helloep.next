@@ -6,5 +6,6 @@ export {
   extractEnglishTitle,
   parseWpContent,
   parseWpTableSections,
+  parseWpPostDetail,
 } from "./helpers";
 export { POSTS_PER_PAGE } from "./constants";

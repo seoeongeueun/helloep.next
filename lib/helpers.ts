@@ -1,4 +1,4 @@
-import type { ParsedContent, TableSection } from "@/types";
+import type { ParsedContent, TableSection, WPPost } from "@/types";
 
 // wp 쪽에서 반환되는 html 엔티티를 변환
 export function decodeHtmlEntities(text: string): string {
@@ -104,6 +104,29 @@ export function parseWpContent(html: string): ParsedContent {
   const content_en = htmlToParagraphs(enHtml);
 
   return { images, content_ko, content_en };
+}
+
+// 상세 포스트 렌더링에 필요한 필드를 공통 포맷으로 파싱
+export function parseWpPostDetail(post: WPPost): WPPost & ParsedContent {
+  const parsed = parseWpContent(post.content.rendered);
+
+  return {
+    ...post,
+    title: {
+      rendered: decodeHtmlEntities(post.title.rendered),
+    },
+    content: {
+      rendered: decodeHtmlEntities(post.content.rendered),
+    },
+    excerpt: {
+      rendered: decodeHtmlEntities(post.excerpt.rendered),
+    },
+    title_en: decodeHtmlEntities(extractEnglishTitle(post.title.rendered)),
+    title_ko: decodeHtmlEntities(post.title.rendered.split("ENG:")[0].trim()),
+    images: parsed.images,
+    content_ko: parsed.content_ko,
+    content_en: parsed.content_en,
+  };
 }
 
 //cv의 테이블 형태를 파싱
