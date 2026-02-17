@@ -43,6 +43,10 @@ export type PostListResponse = {
   totalPages: number;
 };
 
+//CV 페이지의 테이블 섹션 타입 정의
+type TableSectionItem = { year: string; label: string };
+export type TableSection = { title: string; items: TableSectionItem[] };
+
 //목록 뷰 타입
 export type ViewMode = "grid" | "list";
 

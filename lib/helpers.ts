@@ -1,4 +1,4 @@
-import type { ParsedContent } from "@/types";
+import type { ParsedContent, TableSection } from "@/types";
 
 // wp 쪽에서 반환되는 html 엔티티를 변환
 export function decodeHtmlEntities(text: string): string {
@@ -104,4 +104,74 @@ export function parseWpContent(html: string): ParsedContent {
   const content_en = htmlToParagraphs(enHtml);
 
   return { images, content_ko, content_en };
+}
+
+//cv의 테이블 형태를 파싱
+export function parseWpTableSections(html: string): TableSection[] {
+  const src = html ?? "";
+
+  // p 또는 table figure 블록을 "순서대로" 토큰화
+  const tokenRegex =
+    /<p\b[^>]*>[\s\S]*?<\/p>|<figure\b[^>]*wp-block-table[^>]*>[\s\S]*?<\/figure>/gi;
+
+  const tokens = src.match(tokenRegex) ?? [];
+
+  const sections: TableSection[] = [];
+  let current: TableSection | null = null;
+
+  for (const token of tokens) {
+    if (/^<p\b/i.test(token)) {
+      const title = decodeHtmlEntities(stripHtmlTags(token))
+        .replace(/\s+/g, " ")
+        .trim();
+
+      // 빈 p면 무시
+      if (!title) continue;
+
+      current = { title, items: [] };
+      sections.push(current);
+      continue;
+    }
+
+    // table figure
+    if (/^<figure\b/i.test(token)) {
+      // 섹션 제목이 없는데 table이 먼저 오면, "Untitled" 섹션으로라도 받음
+      if (!current) {
+        current = { title: "Untitled", items: [] };
+        sections.push(current);
+      }
+
+      // tr 단위로 파싱
+      const trRegex = /<tr\b[^>]*>[\s\S]*?<\/tr>/gi;
+      const trs = token.match(trRegex) ?? [];
+
+      for (const tr of trs) {
+        const tdRegex = /<td\b[^>]*>([\s\S]*?)<\/td>/gi;
+        const cells: string[] = [];
+        let m: RegExpExecArray | null;
+
+        while ((m = tdRegex.exec(tr)) !== null) {
+          // td 내부에서 <br>은 공백 처리
+          const cell = decodeHtmlEntities(
+            stripHtmlTags(m[1].replace(/<br\s*\/?>/gi, " ")),
+          )
+            .replace(/\s+/g, " ")
+            .trim();
+          cells.push(cell);
+        }
+
+        // year/label 2칸만 쓰는 구조라고 가정 (부족하면 빈문자)
+        const year = (cells[0] ?? "").trim();
+        const label = (cells[1] ?? "").trim();
+
+        // 둘 다 비면 빈 row로 판단하고 제외
+        if (!year && !label) continue;
+
+        current.items.push({ year, label });
+      }
+    }
+  }
+
+  // 섹션 중 items가 0개인 건 필요하면 걸러도 됨
+  return sections.filter((s) => s.title && s.items.length > 0);
 }

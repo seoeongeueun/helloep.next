@@ -5,5 +5,6 @@ export {
   stripHtmlTags,
   extractEnglishTitle,
   parseWpContent,
+  parseWpTableSections,
 } from "./helpers";
 export { POSTS_PER_PAGE } from "./constants";
