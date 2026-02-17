@@ -2,13 +2,13 @@
 
 import { ApiError, apiRequestWithHeaders } from "@/lib/apiRequest";
 import { WP_BASE_URL, parseWpTableSections } from "@/lib";
-import { WPPage } from "@/types";
+import { WPPage, SidebarSlug } from "@/types";
 
 // slug을 기준으로 페이지 데이터를 가져오는 함수
 export async function getPages({
   slug,
 }: {
-  slug: "cv" | "contact" | "client";
+  slug: SidebarSlug;
 }): Promise<unknown> {
   try {
     const response = await apiRequestWithHeaders<WPPage[]>(

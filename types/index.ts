@@ -52,3 +52,6 @@ export type ViewMode = "grid" | "list";
 
 //언어 선택
 export type LanguageMode = "ko" | "en";
+
+//페이지 종류
+export type SidebarSlug = "cv" | "contact" | "client";
