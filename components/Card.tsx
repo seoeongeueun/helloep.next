@@ -12,7 +12,7 @@ interface CardProps {
 
 export default function Card({ post }: CardProps) {
   const { data: categories } = useQuery(categoriesQueries.all());
-  const { setSelectedProjectId, language } = useAppState();
+  const { selectProject, language } = useAppState();
 
   // post의 카테고리 id로 카테고리 데이터를 찾아서 카테고리 배열을 재생성
   const categoryInfos = useMemo(() => {
@@ -27,7 +27,7 @@ export default function Card({ post }: CardProps) {
   return (
     <article
       className="grow h-auto max-w-[calc(33%-0.3rem)] flex flex-col items-start justify-end gap-spacing-3 relative after:absolute after:inset-0 after:bg-black/50 after:z-30 after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-200 after:pointer-events-none cursor-pointer"
-      onClick={() => setSelectedProjectId(post.id)}
+      onClick={() => selectProject(post.id)}
     >
       {post.jetpack_featured_media_url && (
         <figure className="w-full">

@@ -8,14 +8,20 @@ import {
   useMemo,
   useState,
 } from "react";
-import { LanguageMode } from "@/types";
+import { LanguageMode, SidebarSlug } from "@/types";
 
-// 언어와 선택된 프로젝트 id만 간단하게 관리
+type SidebarMode =
+  | { mode: "page"; slug: SidebarSlug }
+  | { mode: "project"; projectId: number };
+
+// 언어와 사이드바 상태 관리
 type AppStateContextValue = {
   language: LanguageMode;
   selectedProjectId: number | null;
+  activeSlug: SidebarSlug | null;
   setLanguage: (language: LanguageMode) => void;
-  setSelectedProjectId: (projectId: number | null) => void;
+  selectProject: (projectId: number) => void;
+  selectPage: (slug: SidebarSlug) => void;
 };
 
 const AppStateContext = createContext<AppStateContextValue | null>(null);
@@ -26,30 +32,43 @@ type AppStateProviderProps = {
 
 export function AppStateProvider({ children }: AppStateProviderProps) {
   const [language, setLanguage] = useState<LanguageMode>("ko"); //디폴트는 국문
-  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(
-    null,
-  );
+  const [sidebarMode, setSidebarMode] = useState<SidebarMode>({
+    mode: "page",
+    slug: "cv",
+  });
 
   const handleSetLanguage = useCallback((next: LanguageMode) => {
     setLanguage(next);
   }, []);
 
-  const handleSetSelectedProjectId = useCallback((projectId: number | null) => {
-    setSelectedProjectId(projectId);
+  const selectProject = useCallback((projectId: number) => {
+    setSidebarMode({ mode: "project", projectId });
   }, []);
+
+  const selectPage = useCallback((slug: SidebarSlug) => {
+    setSidebarMode({ mode: "page", slug });
+  }, []);
+
+  const selectedProjectId =
+    sidebarMode.mode === "project" ? sidebarMode.projectId : null;
+  const activeSlug = sidebarMode.mode === "page" ? sidebarMode.slug : null;
 
   const value = useMemo(
     () => ({
       language,
       selectedProjectId,
+      activeSlug,
       setLanguage: handleSetLanguage,
-      setSelectedProjectId: handleSetSelectedProjectId,
+      selectProject,
+      selectPage,
     }),
     [
       language,
       selectedProjectId,
+      activeSlug,
       handleSetLanguage,
-      handleSetSelectedProjectId,
+      selectProject,
+      selectPage,
     ],
   );
 
