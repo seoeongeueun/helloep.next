@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
         hostname: "helloepseongeun.wordpress.com",
         pathname: "/wp-content/uploads/**",
       },
+      {
+        protocol: "https",
+        hostname: "everyday-practice.com",
+        pathname: "/wp-content/uploads/**",
+      },
     ],
   },
 };
