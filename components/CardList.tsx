@@ -67,14 +67,11 @@ export default function CardList({ viewMode }: { viewMode: ViewMode }) {
       <SearchBar />
       <section
         className={clsx(
-          "flex flex-wrap w-full",
-          {
-            "gap-x-spacing-10 py-[5rem]": viewMode === "grid",
-          },
+          "flex flex-wrap w-full py-[5rem] gap-spacing-10",
           {
             "grid-cols-1 phone_large:grid-cols-2 tablet:grid-cols-4": isLoading,
           },
-          { "grid gap-y-spacing-10": viewMode === "grid" },
+          { "grid gap-spacing-10 ": viewMode === "grid" && isLoading },
         )}
       >
         {isLoading ? renderSkeleton() : renderPosts()}
