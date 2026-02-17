@@ -72,7 +72,7 @@ export async function getPosts(
     excerpt: {
       rendered: decodeHtmlEntities(post.excerpt.rendered),
     },
-    title_en: extractEnglishTitle(post.title.rendered),
+    title_en: decodeHtmlEntities(extractEnglishTitle(post.title.rendered)),
     title_ko: decodeHtmlEntities(post.title.rendered.split("ENG:")[0].trim()),
   }));
 
