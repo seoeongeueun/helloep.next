@@ -3,16 +3,19 @@ import { useState } from "react";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import Image from "next/image";
+import { postsQueries } from "@/query";
+import { useAppState } from "@/context/AppStateContext";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Caption() {
   const [isMinimized, setIsMinimized] = useState(true);
+  const { selectedProjectId, language } = useAppState();
 
-  //TODO: 실제 데이터로 교체 필요
-  const data =
-    "세종문화회관의 대표 공연 브랜드 ‘세종시즌’은 매해 다양한 공연 예술을 통해 관객과 소통하는 프로그램입니다.";
+  //쿼리 내부에서 enabled로 id가 없으면 쿼리를 실행하지 않아서 그냥 넘겨도 괜찮음
+  const { data: post } = useQuery(postsQueries.detail(selectedProjectId));
 
   return (
-    <article
+    <section
       className={twMerge(
         clsx(
           "relative z-20 transition-[height] duration-250 flex flex-row items-start py-margin text-s text-white bg-black after:content-[''] after:absolute after:inset-0 after:transition-colors",
@@ -23,7 +26,15 @@ export default function Caption() {
       )}
       onClick={isMinimized ? () => setIsMinimized(false) : undefined}
     >
-      {data}
+      <article className="w-full word-keep space-y-spacing-10">
+        {(language === "ko" ? post?.content_ko : post?.content_en)?.map(
+          (paragraph, i) => (
+            <p key={i} className="whitespace-pre-line">
+              {paragraph}
+            </p>
+          ),
+        )}
+      </article>
       <button
         type="button"
         aria-label="더보기"
@@ -41,6 +52,6 @@ export default function Caption() {
           )}
         />
       </button>
-    </article>
+    </section>
   );
 }
