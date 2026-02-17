@@ -38,16 +38,14 @@ export async function getPosts(
       page: String(page),
     });
 
-    if (typeof search === "string" && search.trim()) {
-      query.set("search", search.trim());
-    }
-
-    if (typeof categoryId === "number") {
+    if (search?.trim()) query.set("search", search.trim());
+    if (typeof categoryId === "number")
       query.set("categories", String(categoryId));
-    }
 
+    //검색어 검색 범위를 제목+클라이언트(excerpt) 제한
+    //본문으로는 검색하지 않는다.
     const response = await apiRequestWithHeaders<WPApiResponse | WPPost[]>(
-      `${WP_BASE_URL}/posts?${query.toString()}`,
+      `${WP_BASE_URL}/posts?${query.toString()}${search ? "&search_columns[]=post_title&search_columns[]=post_excerpt" : ""}`,
     );
     data = response.data;
 
