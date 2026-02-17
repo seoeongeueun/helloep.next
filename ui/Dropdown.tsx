@@ -1,18 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
-
-//TODO: 임시로 하드코딩한 드롭다운 필터 값 => 추후 API 연동 시 동적으로 렌더링하도록 수정 필요
-const dropdownOptions: { value: string; label: string }[] = [
-  { value: "2024", label: "2024" },
-  { value: "2023", label: "2023" },
-  { value: "2022", label: "2022" },
-  { value: "2021", label: "2021" },
-];
+import { tagsQueries } from "@/query";
+import { useQuery } from "@tanstack/react-query";
 
 export function Dropdown() {
   const [isOpen, setIsOpen] = useState(false);
+  const { data: tags = [] } = useQuery(tagsQueries.all());
+
+  // 태그 이름을 내림차순으로 정렬
+  const sortedTags = useMemo(() => {
+    return [...tags].sort((a, b) => b.name.localeCompare(a.name));
+  }, [tags]);
 
   // 외부 영역 클릭 시 드롭다운 닫기
   const handleClickOutside = (event: PointerEvent) => {
@@ -50,9 +50,9 @@ export function Dropdown() {
       <ul
         className={`absolute w-full bg-secondary px-margin-s max-h-40 overflow-auto border-b border-b-gray z-20 ${isOpen ? "open pointer-events-auto" : "closed pointer-events-none"}`}
       >
-        {dropdownOptions.map((option) => (
-          <li key={option.value} className="hover:bg-selected cursor-pointer">
-            {option.label}
+        {sortedTags.map((tag) => (
+          <li key={tag.name} className="hover:bg-selected cursor-pointer py-2">
+            {tag.name}
           </li>
         ))}
       </ul>
