@@ -15,6 +15,7 @@ export interface WPPost {
   tags: number[];
   jetpack_featured_media_url: string;
   title_en?: string; // 기존 title에서 영문 제목을 추출해서 저장
+  title_ko?: string; // 기존 title에서 영문을 제외한 부분
 }
 
 //카테고리 및 태그 정보 (공용 사용)

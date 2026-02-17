@@ -73,6 +73,7 @@ export async function getPosts(
       rendered: decodeHtmlEntities(post.excerpt.rendered),
     },
     title_en: extractEnglishTitle(post.title.rendered),
+    title_ko: decodeHtmlEntities(post.title.rendered.split("ENG:")[0].trim()),
   }));
 
   // 헤더에서 totalCount와 totalPages를 추출하되, 유효한 숫자인지 확인

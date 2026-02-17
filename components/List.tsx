@@ -37,7 +37,7 @@ export default function List({ post }: CardProps) {
   return (
     <article className="w-full flex flex-row items-start justify-between gap-spacing-10 hover:bg-secondary border-b border-gray transtion-colors duration-200 cursor-pointer py-spacing-6">
       <div className="flex flex-wrap w-1/2 items-center h-full gap-x-spacing-10">
-        <h3 className="border-none!">{post.title.rendered}</h3>
+        <h3 className="border-none!">{post.title_ko || post.title.rendered}</h3>
         <div className="flex items-center gap-spacing-3 h-[2.3rem]">
           {categoryInfos.map((cat, i) => (
             <Tag key={i} color={cat?.color || ""} label={cat?.name || ""} />

@@ -15,8 +15,8 @@ export function stripHtmlTags(text: string): string {
   return text.replace(/<[^>]*>/g, "");
 }
 
-//영문 제목 추출 - title.rendered에서 ENG: 이후 제목
+//영문 제목 추출 - title.rendered에서 ENG: 또는 eng: 이후 제목
 export function extractEnglishTitle(text: string): string {
-  const match = text.match(/ENG:\s*(.*)/);
+  const match = text.match(/ENG:\s*(.*)/i);
   return match ? match[1].trim() : "";
 }
