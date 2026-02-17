@@ -8,6 +8,7 @@ import SideBar from "@/components/SideBar";
 import QueryProvider from "@/query/QueryProvider";
 import { categoriesQueries, tagsQueries } from "@/query";
 import { AppStateProvider } from "@/context/AppStateContext";
+import { QUERY_CLIENT_DEFAULT_OPTIONS } from "@/lib";
 import "@/styles/index.css";
 
 export const metadata: Metadata = {
@@ -20,7 +21,9 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: QUERY_CLIENT_DEFAULT_OPTIONS,
+  });
 
   // 카테고리와 태그 데이터를 미리 패칭하여 초기 상태로 제공
   await Promise.all([

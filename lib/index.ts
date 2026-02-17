@@ -1,4 +1,4 @@
-export { WP_BASE_URL } from "./api";
+export { WP_BASE_URL, QUERY_CLIENT_DEFAULT_OPTIONS } from "./api";
 export { apiRequest } from "./apiRequest";
 export {
   decodeHtmlEntities,
