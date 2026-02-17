@@ -35,16 +35,16 @@ export default function List({ post }: CardProps) {
   }, [tags, post.tags]);
 
   return (
-    <article className="w-full flex flex-row items-start justify-between gap-spacing-10 hover:bg-secondary border-b border-gray transtion-colors duration-200 cursor-pointer">
-      <div className="flex flex-row w-1/2 items-center h-full gap-spacing-10">
+    <article className="w-full flex flex-row items-start justify-between gap-spacing-10 hover:bg-secondary border-b border-gray transtion-colors duration-200 cursor-pointer py-spacing-6">
+      <div className="flex flex-wrap w-1/2 items-center h-full gap-x-spacing-10">
         <h3 className="border-none!">{post.title.rendered}</h3>
-        <div className="flex gap-spacing-3">
+        <div className="flex items-center gap-spacing-3 h-[2.3rem]">
           {categoryInfos.map((cat, i) => (
             <Tag key={i} color={cat?.color || ""} label={cat?.name || ""} />
           ))}
         </div>
       </div>
-      <div className="w-1/2 flex flex-row gap-spacing-10 *:w-full *:py-spacing-6">
+      <div className="w-1/2 flex flex-row gap-spacing-10 *:w-full">
         <time>{tagName}</time>
         <p className="break-keep">{stripHtmlTags(post.excerpt.rendered)}</p>
       </div>
