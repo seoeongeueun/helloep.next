@@ -18,6 +18,13 @@ export interface WPPost {
   title_ko?: string; // 기존 title에서 영문을 제외한 부분
 }
 
+//기본 wpPost를 가공해서 렌더링할 포스트 타입
+export type ParsedContent = {
+  images: string[];
+  content_ko: string[];
+  content_en: string[];
+};
+
 //카테고리 및 태그 정보 (공용 사용)
 export interface WPTag {
   id: number;

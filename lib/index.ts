@@ -4,5 +4,6 @@ export {
   decodeHtmlEntities,
   stripHtmlTags,
   extractEnglishTitle,
+  parseWpContent,
 } from "./helpers";
 export { POSTS_PER_PAGE } from "./constants";
