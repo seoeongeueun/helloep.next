@@ -1,3 +1,5 @@
+import Caption from "./Caption";
+
 export default function SideBar() {
   const data = [
     {
@@ -24,14 +26,15 @@ export default function SideBar() {
   ];
 
   return (
-    <aside className="sticky top-0 font-normal !h-full min-w-[40rem] w-[29%] border-l border-px border-gray">
+    <aside className="sticky top-0 font-normal min-w-[40rem] w-[29%] border-l border-px border-gray">
       <header className="flex flex-row px-margin w-full justify-end items-center gap-spacing-10 h-headerH border-b border-px border-gray text-m">
         <button type="button">Contact</button>
         <button type="button">CV</button>
         <button type="button">Client</button>
       </header>
-      <section className="flex flex-col gap-12 p-margin">
-        {data.map((section) => (
+      <section className="relative flex flex-col justify-end gap-12 p-margin h-[calc(100%_-_var(--headerH))]">
+        <Caption />
+        {/* {data.map((section) => (
           <table
             key={section.title}
             className="flex flex-col gap-spacing-10 w-full border-collapse"
@@ -52,7 +55,7 @@ export default function SideBar() {
               ))}
             </tbody>
           </table>
-        ))}
+        ))} */}
       </section>
     </aside>
   );
