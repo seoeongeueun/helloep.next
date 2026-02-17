@@ -1,10 +1,14 @@
+"use client";
 import Image from "next/image";
+import { useQuery } from "@tanstack/react-query";
+import { postsQueries } from "@/query/postsQuery";
 
-//TODO: 실제 검색 결과 수 연동 필요
 export function Results() {
+  const { data } = useQuery(postsQueries.list());
+
   return (
     <div className="flex flex-row items-center justify-between w-full border-b border-b-gray py-1">
-      <span className="text-gray">123 results</span>
+      <span className="text-gray">{data?.totalCount ?? 0} results</span>
       <button
         type="button"
         aria-label="검색 결과 초기화"
