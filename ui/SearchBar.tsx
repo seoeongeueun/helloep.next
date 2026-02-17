@@ -2,7 +2,7 @@
 
 import { Dropdown, Results } from "./index";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export function SearchBar() {
@@ -11,6 +11,11 @@ export function SearchBar() {
   const [searchInput, setSearchInput] = useState(
     searchParams.get("search") ?? "",
   );
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSearchInput(searchParams.get("search") ?? "");
+  }, [searchParams]);
 
   const handleSearch = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -34,6 +39,7 @@ export function SearchBar() {
         role="search"
         aria-label="검색"
         onSubmit={handleSearch}
+        id="search-filter"
       >
         <label htmlFor="site-search" className="sr-only">
           검색어 입력
