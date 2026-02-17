@@ -14,6 +14,13 @@ export default function Caption() {
   //쿼리 내부에서 enabled로 id가 없으면 쿼리를 실행하지 않아서 그냥 넘겨도 괜찮음
   const { data: post } = useQuery(postsQueries.detail(selectedProjectId));
 
+  if (!post || !post.content_ko) return null;
+
+  const content =
+    language === "ko" || !post?.content_en || post.content_en.length === 0
+      ? post.content_ko
+      : post.content_en;
+
   return (
     <section
       className={twMerge(
@@ -27,13 +34,11 @@ export default function Caption() {
       onClick={isMinimized ? () => setIsMinimized(false) : undefined}
     >
       <article className="w-full word-keep space-y-spacing-10">
-        {(language === "ko" ? post?.content_ko : post?.content_en)?.map(
-          (paragraph, i) => (
-            <p key={i} className="whitespace-pre-line">
-              {paragraph}
-            </p>
-          ),
-        )}
+        {content.map((paragraph, i) => (
+          <p key={i} className="whitespace-pre-line">
+            {paragraph}
+          </p>
+        ))}
       </article>
       <button
         type="button"

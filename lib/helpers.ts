@@ -46,7 +46,7 @@ export function htmlToParagraphs(html: string): string[] {
       .replace(/\s+/g, " ")
       .trim();
 
-    if (cleaned) paragraphs.push(cleaned);
+    if (cleaned) paragraphs.push(decodeHtmlEntities(cleaned));
   }
 
   // p가 없을 때 fallback
