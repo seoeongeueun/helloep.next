@@ -1,6 +1,6 @@
 "use client";
-import Caption from "@/components/Caption";
-import Figures from "@/components/Figures";
+import Caption from "./Caption";
+import Figures from "./Figures";
 import { useAppState } from "@/context/AppStateContext";
 
 //TODO: 타입 수정 필요!
