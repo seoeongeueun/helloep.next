@@ -2,9 +2,10 @@ import { WPPost } from "@/types";
 import { Tag } from "@/ui";
 import Image from "next/image";
 import { useMemo } from "react";
-import { categoriesQueries } from "@/query";
-import { useQuery } from "@tanstack/react-query";
+import { categoriesQueries, postsQueries } from "@/query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAppState } from "@/context/AppStateContext";
+import { parseWpPostDetail } from "@/lib";
 
 interface CardProps {
   post: WPPost;
@@ -13,6 +14,7 @@ interface CardProps {
 export default function Card({ post }: CardProps) {
   const { data: categories } = useQuery(categoriesQueries.all());
   const { selectProject, language } = useAppState();
+  const queryClient = useQueryClient();
 
   // post의 카테고리 id로 카테고리 데이터를 찾아서 카테고리 배열을 재생성
   const categoryInfos = useMemo(() => {
@@ -23,11 +25,18 @@ export default function Card({ post }: CardProps) {
     );
   }, [categories, post.categories]);
 
+  const handleProjectSelect = () => {
+    // 이미 데이터를 가지고 있기 때문에 파싱 후 바로 query에 추가해서 네트워크 요청을 스킵한다
+    const parsed = parseWpPostDetail(post);
+    queryClient.setQueryData(postsQueries.detail(post.id).queryKey, parsed);
+    selectProject(post.id);
+  };
+
   //TODO: 반응형 수정 필요
   return (
     <article
       className="grow h-auto max-w-[calc(33%-0.3rem)] flex flex-col items-start justify-end gap-spacing-3 relative after:absolute after:inset-0 after:bg-black/50 after:z-30 after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-200 after:pointer-events-none cursor-pointer"
-      onClick={() => selectProject(post.id)}
+      onClick={handleProjectSelect}
     >
       {post.jetpack_featured_media_url && (
         <figure className="w-full">

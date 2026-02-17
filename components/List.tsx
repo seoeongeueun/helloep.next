@@ -3,11 +3,11 @@
 import { WPPost } from "@/types";
 import { stripHtmlTags } from "@/lib";
 import { Tag } from "@/ui";
-import { categoriesQueries } from "@/query";
-import { useQuery } from "@tanstack/react-query";
-import { tagsQueries } from "@/query";
+import { categoriesQueries, postsQueries, tagsQueries } from "@/query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useAppState } from "@/context/AppStateContext";
+import { parseWpPostDetail } from "@/lib";
 
 interface CardProps {
   post: WPPost;
@@ -18,6 +18,7 @@ export default function List({ post }: CardProps) {
   const { data: categories } = useQuery(categoriesQueries.all());
   const { data: tags } = useQuery(tagsQueries.all());
   const { selectProject, language } = useAppState();
+  const queryClient = useQueryClient();
 
   // post의 카테고리 id로 카테고리 데이터를 찾아서 카테고리 배열을 재생성
   const categoryInfos = useMemo(() => {
@@ -36,10 +37,17 @@ export default function List({ post }: CardProps) {
     return tags.find((t) => t.id === post.tags[0])?.name ?? "";
   }, [tags, post.tags]);
 
+  const handleProjectSelect = () => {
+    // 이미 데이터를 가지고 있기 때문에 파싱 후 바로 query에 추가해서 네트워크 요청을 스킵한다
+    const parsed = parseWpPostDetail(post);
+    queryClient.setQueryData(postsQueries.detail(post.id).queryKey, parsed);
+    selectProject(post.id);
+  };
+
   return (
     <article
       className="w-full flex flex-row items-start justify-between gap-spacing-10 hover:bg-secondary border-b border-gray transtion-colors duration-200 cursor-pointer py-spacing-6"
-      onClick={() => selectProject(post.id)}
+      onClick={handleProjectSelect}
     >
       <div className="flex flex-wrap w-1/2 items-center h-full gap-x-spacing-10">
         <h3 className="border-none!">
