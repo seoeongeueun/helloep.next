@@ -3,15 +3,28 @@
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { categoriesQueries } from "@/query/categoriesQuery";
-import { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export function Filters() {
-  const [activeCategory, setActiveCategory] = useState<number | null>(null);
   const { data: categories = [] } = useQuery(categoriesQueries.all());
 
-  const handleCategoryClick = (categoryId: number | null) => {
-    //TODO: 필터링 로직 추가 필요
-    setActiveCategory(categoryId);
+  // 현재 URL에서 쿼리 파라미터를 읽어서 현재 선택된 카테고리를 결정
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentFilter = searchParams.get("category") || null;
+
+  const handleCategoryClick = (categoryName: string | null) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (categoryName === null) {
+      params.delete("category");
+    } else {
+      params.set("category", categoryName.toLowerCase());
+    }
+
+    const query = params.toString();
+    const url = query ? `${pathname}?${query}` : pathname;
+    router.push(url);
   };
 
   return (
@@ -23,7 +36,7 @@ export function Filters() {
         <li>
           <button
             type="button"
-            className={activeCategory === null ? "active" : ""}
+            className={currentFilter === null ? "active" : ""}
             onClick={() => handleCategoryClick(null)}
           >
             All
@@ -33,8 +46,10 @@ export function Filters() {
           <li key={category.id}>
             <button
               type="button"
-              className={activeCategory === category.id ? "active" : ""}
-              onClick={() => handleCategoryClick(category.id)}
+              className={
+                currentFilter === category.name.toLowerCase() ? "active" : ""
+              }
+              onClick={() => handleCategoryClick(category.name)}
             >
               {category.name}
             </button>
