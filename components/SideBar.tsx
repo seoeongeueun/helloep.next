@@ -1,4 +1,5 @@
 import Caption from "./Caption";
+import Figures from "./Figures";
 
 export default function SideBar() {
   const data = [
@@ -32,7 +33,8 @@ export default function SideBar() {
         <button type="button">CV</button>
         <button type="button">Client</button>
       </header>
-      <section className="relative flex flex-col justify-end gap-12 p-margin h-[calc(100%_-_var(--headerH))]">
+      <section className="relative flex flex-col justify-end gap-12 p-margin h-[calc(100%_-_var(--headerH))] overflow-hidden">
+        <Figures />
         <Caption />
         {/* {data.map((section) => (
           <table

@@ -18,10 +18,10 @@ export default function Caption() {
     <section
       className={twMerge(
         clsx(
-          "relative z-20 transition-[height] duration-250 flex flex-row items-start py-margin text-s text-white bg-black after:content-[''] after:absolute after:inset-0 after:transition-colors",
+          "absolute z-20 transition-[max-height] flex flex-row items-start py-margin text-s text-white bg-black overflow-hidden after:content-[''] after:absolute after:inset-0 after:transition-colors",
           isMinimized
-            ? "h-[5rem] cursor-pointer after:block after:w-full after:h-full after:bg-black-fade hover:after:bg-black/50 "
-            : "h-full",
+            ? "max-h-[5rem] duration-200 cursor-pointer after:block after:w-full after:h-full after:bg-black-fade hover:after:bg-black/50"
+            : "max-h-full min-h-1/2 duration-100",
         ),
       )}
       onClick={isMinimized ? () => setIsMinimized(false) : undefined}
