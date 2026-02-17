@@ -28,5 +28,12 @@ export interface WPCategory extends WPTag {
   color?: string; //카테고리 description에서 받아올 색상 정보 추가
 }
 
+//posts의 pagination을 위해 posts 총 개수와 페이지 정보를 포함하도록 정의
+export type PostListResponse = {
+  posts: WPPost[];
+  totalCount: number;
+  totalPages: number;
+};
+
 //목록 뷰 타입
 export type ViewMode = "grid" | "list";
