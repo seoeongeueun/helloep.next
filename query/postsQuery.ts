@@ -1,9 +1,11 @@
 import { getPosts } from "@/actions/posts";
+import { getPostById } from "@/actions/post";
 import { queryOptions } from "@tanstack/react-query";
 import { POSTS_PER_PAGE } from "@/lib";
 
 const postsKey = {
   all: ["posts"] as const,
+  detail: (id: number) => [...postsKey.all, "detail", id] as const,
   list: (page = 1) => [...postsKey.all, "list", page] as const,
   search: (query: string, page = 1) =>
     [...postsKey.all, "search", query, page] as const,
@@ -16,6 +18,7 @@ const postsKey = {
 /**
  * postsQueries 객체는 게시글 데이터를 가져오는 쿼리
  * page 번호는 값이 없는 경우 1로 간주
+ * - detail: ID로 단일 게시글을 가져오는 쿼리
  * - list: 페이지 번호를 기반으로 게시글 목록을 가져오는 쿼리
  * - search: 검색어와 페이지 번호를 기반으로 게시글 목록을 가져오는 쿼리
  * - searchCategory: 검색어와 카테고리 id, 페이지 번호를 기반으로 게시글 목록을 가져오는 쿼리
@@ -23,6 +26,13 @@ const postsKey = {
  * placeholderData 옵션을 통해 페이지 전환 시 이전 데이터를 유지하도록 설정하여 사용자 경험을 개선합니다.
  */
 export const postsQueries = {
+  detail: (id: number | null) => {
+    return queryOptions({
+      queryKey: postsKey.detail(id!),
+      queryFn: async () => getPostById(id!),
+      enabled: !!id, // id가 유효한 경우에만 쿼리 실행
+    });
+  },
   list: (page?: number) => {
     return queryOptions({
       queryKey: postsKey.list(page ?? 1),
