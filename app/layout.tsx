@@ -7,6 +7,7 @@ import {
 import SideBar from "@/components/SideBar";
 import QueryProvider from "@/query/QueryProvider";
 import { categoriesQueries, tagsQueries } from "@/query";
+import { AppStateProvider } from "@/context/AppStateContext";
 import "@/styles/index.css";
 
 export const metadata: Metadata = {
@@ -30,12 +31,14 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased font-normal text-s flex flex-row gap-spacing-10 w-full">
-        <QueryProvider>
-          <HydrationBoundary state={dehydrate(queryClient)}>
-            {children}
-            <SideBar />
-          </HydrationBoundary>
-        </QueryProvider>
+        <AppStateProvider>
+          <QueryProvider>
+            <HydrationBoundary state={dehydrate(queryClient)}>
+              {children}
+              <SideBar />
+            </HydrationBoundary>
+          </QueryProvider>
+        </AppStateProvider>
       </body>
     </html>
   );

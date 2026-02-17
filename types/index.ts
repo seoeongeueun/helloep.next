@@ -38,3 +38,6 @@ export type PostListResponse = {
 
 //목록 뷰 타입
 export type ViewMode = "grid" | "list";
+
+//언어 선택
+export type LanguageMode = "ko" | "en";

@@ -7,6 +7,7 @@ import { categoriesQueries } from "@/query";
 import { useQuery } from "@tanstack/react-query";
 import { tagsQueries } from "@/query";
 import { useMemo } from "react";
+import { useAppState } from "@/context/AppStateContext";
 
 interface CardProps {
   post: WPPost;
@@ -16,6 +17,7 @@ interface CardProps {
 export default function List({ post }: CardProps) {
   const { data: categories } = useQuery(categoriesQueries.all());
   const { data: tags } = useQuery(tagsQueries.all());
+  const { setSelectedProjectId, language } = useAppState();
 
   // post의 카테고리 id로 카테고리 데이터를 찾아서 카테고리 배열을 재생성
   const categoryInfos = useMemo(() => {
@@ -35,9 +37,16 @@ export default function List({ post }: CardProps) {
   }, [tags, post.tags]);
 
   return (
-    <article className="w-full flex flex-row items-start justify-between gap-spacing-10 hover:bg-secondary border-b border-gray transtion-colors duration-200 cursor-pointer py-spacing-6">
+    <article
+      className="w-full flex flex-row items-start justify-between gap-spacing-10 hover:bg-secondary border-b border-gray transtion-colors duration-200 cursor-pointer py-spacing-6"
+      onClick={() => setSelectedProjectId(post.id)}
+    >
       <div className="flex flex-wrap w-1/2 items-center h-full gap-x-spacing-10">
-        <h3 className="border-none!">{post.title_ko || post.title.rendered}</h3>
+        <h3 className="border-none!">
+          {language === "ko"
+            ? post.title_ko
+            : post.title_en || post.title.rendered}
+        </h3>
         <div className="flex items-center gap-spacing-3 h-[2.3rem]">
           {categoryInfos.map((cat, i) => (
             <Tag key={i} color={cat?.color || ""} label={cat?.name || ""} />

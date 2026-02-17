@@ -1,6 +1,11 @@
+"use client";
+
 import Link from "next/link";
+import { useAppState } from "@/context/AppStateContext";
 
 export function Header() {
+  const { language, setLanguage } = useAppState();
+
   return (
     <header className="sticky top-0 shrink-0 font-inter text-gray text-m px-margin h-headerH border-b border-px border-gray z-50 bg-black">
       <nav
@@ -22,11 +27,21 @@ export function Header() {
           className="gap-1 flex flex-row items-center"
           aria-label="언어 변경"
         >
-          <button type="button" className="active">
+          <button
+            type="button"
+            className={language === "ko" ? "active" : ""}
+            onClick={() => setLanguage("ko")}
+          >
             Kor
           </button>
           <span aria-hidden="true">/</span>
-          <button type="button">Eng</button>
+          <button
+            type="button"
+            className={language === "en" ? "active" : ""}
+            onClick={() => setLanguage("en")}
+          >
+            Eng
+          </button>
         </div>
 
         <a href="mailto:hello@everyday-practice.com" aria-label="이메일 보내기">
