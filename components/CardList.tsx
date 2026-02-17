@@ -7,11 +7,15 @@ import { WPPost } from "@/types";
 import type { ViewMode } from "@/types";
 import { postsQueries } from "@/query";
 import { useQuery } from "@tanstack/react-query";
+import { useSearchParams } from "next/navigation";
+import Pagination from "./Pagination";
 import clsx from "clsx";
 
-//TODO: 페이지네이션 적용 필요
 export default function CardList({ viewMode }: { viewMode: ViewMode }) {
-  const { data: posts, isLoading, isError } = useQuery(postsQueries.list());
+  const searchParams = useSearchParams();
+  const currentPage = Math.max(Number(searchParams.get("page")) || 1, 1);
+
+  const { data, isLoading, isError } = useQuery(postsQueries.list(currentPage));
 
   const renderSkeleton = () => {
     const skeletonItems = Array.from({ length: 10 }).map((_, i) => (
@@ -30,7 +34,7 @@ export default function CardList({ viewMode }: { viewMode: ViewMode }) {
   };
 
   const renderPosts = () => {
-    if (!posts || posts.length === 0) {
+    if (!data?.posts || data.posts.length === 0) {
       return (
         <p className="text-center w-full mt-10 text-gray text-m">
           게시글이 없습니다
@@ -38,7 +42,7 @@ export default function CardList({ viewMode }: { viewMode: ViewMode }) {
       );
     }
 
-    return posts.map((post: WPPost) =>
+    return data.posts.map((post: WPPost) =>
       viewMode === "grid" ? (
         <Card key={post.id} post={post} />
       ) : (
@@ -68,13 +72,15 @@ export default function CardList({ viewMode }: { viewMode: ViewMode }) {
             "gap-x-spacing-10 py-[5rem]": viewMode === "grid",
           },
           {
-            "gap-y-spacing-10 grid-cols-1 phone_large:grid-cols-2 tablet:grid-cols-4 grid":
+            "gap-y-spacing-10 grid-cols-1 phone_large:grid-cols-2 tablet:grid-cols-4":
               isLoading,
           },
+          { grid: viewMode === "grid" },
         )}
       >
         {isLoading ? renderSkeleton() : renderPosts()}
       </section>
+      <Pagination maxPage={data?.totalPages ?? 1} />
     </main>
   );
 }
