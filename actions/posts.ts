@@ -1,7 +1,7 @@
 "use server";
 
 import { apiRequest } from "@/lib/apiRequest";
-import { WP_BASE_URL, decodeHtmlEntities } from "@/lib";
+import { WP_BASE_URL, decodeHtmlEntities, extractEnglishTitle } from "@/lib";
 import { WPPost } from "@/types";
 
 //전체 응답 데이터 중 posts 필드만 추출하는 타입 정의
@@ -42,6 +42,7 @@ export async function getPosts(
     excerpt: {
       rendered: decodeHtmlEntities(post.excerpt.rendered),
     },
+    title_en: extractEnglishTitle(post.title.rendered),
   }));
 
   return posts;
