@@ -43,6 +43,9 @@
   --color-selected: var(--selected);
   --color-secondary: var(--secondary);
 
+  --background-image-black-fade:
+    linear-gradient(180deg, transparent 0%, transparent 20%, var(--black) 100%);
+
   --font-pretendard:
     pretendard, system-ui, Avenir, Helvetica, Arial, sans-serif;
   --font-inter: inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
