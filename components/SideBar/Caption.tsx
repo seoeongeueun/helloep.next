@@ -38,7 +38,7 @@ export default function Caption() {
     <section
       className={twMerge(
         clsx(
-          "absolute bottom-0 z-20 transition-[max-height] duration-1000 flex flex-row items-start py-margin text-s text-white bg-black overflow-hidden",
+          "hidden desktop:flex absolute bottom-0 z-20 transition-[max-height] duration-1000 flex-row items-start p-margin pr-0 text-s text-white bg-black overflow-hidden",
           "after:content-[''] after:absolute after:inset-0 after:transition-colors",
           {
             "max-h-[5rem] duration-200 cursor-pointer after:block after:w-full after:h-full after:bg-black-fade hover:after:bg-black/50":

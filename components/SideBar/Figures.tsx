@@ -49,12 +49,15 @@ export default function Figures({ initialData }: FiguresProps) {
 
   return (
     <section
-      className={clsx("flex flex-col w-full h-full overflow-y-auto", {
-        "p-margin": isDetailPage,
-      })}
+      className={clsx(
+        "flex flex-col w-full h-full overflow-y-auto px-margin pb-margin",
+        {
+          "p-margin": isDetailPage,
+        },
+      )}
     >
-      <header className="flex flex-row items-start justify-between gap-spacing-10 py-margin pt-0">
-        <h2 className="text-[2.5rem] border-none! w-full">
+      <header className="flex flex-row items-start justify-between gap-spacing-10 py-margin">
+        <h2 className="text-[2.5rem] border-none! w-full ">
           {language === "ko"
             ? currentPost?.title_ko
             : currentPost?.title_en || currentPost?.title.rendered}
@@ -81,7 +84,7 @@ export default function Figures({ initialData }: FiguresProps) {
             />
           </figure>
         ))}
-        <div className="block desktop:hidden desktop:w-0 w-full">
+        <div className="inline-block desktop:hidden desktop:w-0 w-full word-keep space-y-spacing-10">
           {content?.map((paragraph, i) => (
             <p key={i} className="whitespace-pre-line">
               {paragraph}
