@@ -15,7 +15,7 @@ export function Results() {
   };
 
   return (
-    <div className="flex flex-row items-center justify-between w-full border-b border-b-gray py-1">
+    <div className="flex flex-row items-center justify-between w-full border-b border-b-gray tablet:py-1">
       <span className="flex items-center text-gray ml-auto tablet:ml-0 text-xs tablet:text-s h-[3.6rem] tablet:h-fit">
         {data?.totalCount ?? 0} results
       </span>

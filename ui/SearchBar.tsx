@@ -4,9 +4,11 @@ import { Dropdown, Results } from "./index";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useAppState } from "@/context/AppStateContext";
 
 export function SearchBar() {
   const router = useRouter();
+  const { setViewMode, viewMode } = useAppState();
   const searchParams = useSearchParams();
   const [searchInput, setSearchInput] = useState(
     searchParams.get("search") ?? "",
@@ -32,6 +34,13 @@ export function SearchBar() {
     router.push(`?${params.toString()}`);
   };
 
+  const handleReset = () => {
+    router.push(`/`); // 모든 검색어 및 필터 초기화
+  };
+
+  // params가 있는지 확인
+  const hasParams = searchParams.toString().length > 0;
+
   return (
     <div className="flex flex-row justify-between gap-4 text-s">
       <form
@@ -41,6 +50,46 @@ export function SearchBar() {
         onSubmit={handleSearch}
         id="search-filter"
       >
+        <div className="flex tablet:hidden flex-row items-center ml-auto gap-spacing-10">
+          {hasParams && (
+            <button
+              type="button"
+              aria-label="검색 결과 초기화"
+              className="flex flex-rowitems-center text-white! hover:text-gray! h-full"
+              onClick={handleReset}
+            >
+              <Image
+                src="/icons/icon_reset.svg"
+                alt="초기화"
+                aria-hidden="true"
+                className="h-full w-auto p-1"
+                width={32}
+                height={32}
+              />
+            </button>
+          )}
+          <button
+            type="button"
+            aria-label={
+              viewMode === "list" ? "이미지 뷰로 변경" : "목록 뷰로 변경"
+            }
+            className="flex flex-row items-center justify-end justify-self-end"
+            onClick={() => setViewMode(viewMode === "list" ? "grid" : "list")}
+          >
+            <Image
+              src={
+                viewMode === "list"
+                  ? "/icons/icon_grid.svg"
+                  : "/icons/icon_hamburger.svg"
+              }
+              alt={viewMode === "list" ? "그리드 아이콘" : "햄버거 아이콘"}
+              aria-hidden="true"
+              width={24}
+              height={24}
+              className="h-full w-auto"
+            />
+          </button>
+        </div>
         <label htmlFor="site-search" className="sr-only">
           검색어 입력
         </label>

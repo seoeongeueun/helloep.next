@@ -95,7 +95,7 @@ export default function CardList() {
                 isLoading,
             },
             {
-              "grid grid-cols-1 tablet:flex tablet:flex-wrap gap-spacing-10 ":
+              "grid grid-cols-2 tablet:flex tablet:flex-wrap gap-spacing-10 ":
                 viewMode === "grid",
             },
           ),
