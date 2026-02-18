@@ -7,7 +7,6 @@ export default function Home() {
       id="main-scroll"
       className="flex flex-col border-r border-px border-gray w-full h-full overflow-y-auto"
     >
-      <Header />
       <Filters />
       <CardList viewMode="grid" />
     </div>

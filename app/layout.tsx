@@ -9,6 +9,7 @@ import QueryProvider from "@/query/QueryProvider";
 import { categoriesQueries, tagsQueries } from "@/query";
 import { AppStateProvider } from "@/context/AppStateContext";
 import { QUERY_CLIENT_DEFAULT_OPTIONS } from "@/lib";
+import { Header } from "@/ui";
 import "@/styles/index.css";
 
 export const metadata: Metadata = {
@@ -37,7 +38,10 @@ export default async function RootLayout({
         <AppStateProvider>
           <QueryProvider>
             <HydrationBoundary state={dehydrate(queryClient)}>
-              {children}
+              <div className="flex flex-col w-full">
+                <Header />
+                {children}
+              </div>
               <SideBar />
             </HydrationBoundary>
           </QueryProvider>

@@ -33,7 +33,7 @@ export function Filters() {
 
   return (
     <nav
-      className="sticky top-headerH font-inter px-margin py-2 backdrop-blur-[2px] bg-black-80 text-m flex flex-row itmes-start justify-between z-50"
+      className="sticky top-0 font-inter px-margin py-2 backdrop-blur-[2px] bg-black-80 text-m flex flex-row itmes-start justify-between z-50"
       aria-label="필터"
     >
       <ul className="flex flex-wrap gap-x-4" aria-label="필터 목록">
