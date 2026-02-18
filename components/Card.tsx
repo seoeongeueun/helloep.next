@@ -6,6 +6,8 @@ import { categoriesQueries, postsQueries } from "@/query";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAppState } from "@/context/AppStateContext";
 import { parseWpPostDetail } from "@/lib";
+import { useSidebar } from "@/context/SidebarContext";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface CardProps {
   post: WPPost;
@@ -14,7 +16,11 @@ interface CardProps {
 export default function Card({ post }: CardProps) {
   const { data: categories } = useQuery(categoriesQueries.all());
   const { selectProject, language } = useAppState();
+  const { isMobile } = useSidebar();
   const queryClient = useQueryClient();
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   // post의 카테고리 id로 카테고리 데이터를 찾아서 카테고리 배열을 재생성
   const categoryInfos = useMemo(() => {
@@ -30,6 +36,12 @@ export default function Card({ post }: CardProps) {
     const parsed = parseWpPostDetail(post);
     queryClient.setQueryData(postsQueries.detail(post.id).queryKey, parsed);
     selectProject(post.id);
+
+    //모바일은 클릭시 상세페이지로 이동
+    if (isMobile) {
+      const params = new URLSearchParams(searchParams.toString());
+      router.push(`/${post.id}?${params.toString()}`);
+    }
   };
 
   //TODO: 반응형 수정 필요

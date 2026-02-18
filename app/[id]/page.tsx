@@ -21,7 +21,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
 
   //ssr 이후 클라이언트에서 상태 업데이트를 위해 PostDetailSelector 컴포넌트를 추가한다
   return (
-    <div className="flex flex-col border-r border-px border-gray w-full h-full overflow-y-auto">
+    <div className="hidden desktop:flex flex-col border-r border-px border-gray w-full h-full overflow-y-auto">
       <Figures initialData={post} />
       <PostDetailSelector postId={postId} />
     </div>
