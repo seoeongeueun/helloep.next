@@ -9,6 +9,7 @@
   --breakpoint-phone_large: 429px;
   --breakpoint-tablet: 639px;
   --breakpoint-desktop: 1023px;
+  --breakpoint-desktop_large: 1769px;
 
   --text-xxs: 1.1rem;
   --text-xs: 1.4rem;

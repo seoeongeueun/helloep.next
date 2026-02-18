@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { pagesQueries } from "@/query";
 import { useAppState } from "@/context/AppStateContext";
 import type { SidebarSlug } from "@/types";
+import clsx from "clsx";
 
 //TODO: 페이지 데이터 타입 정의 필요 (현재는 unknown으로 처리)
 type SideBarClientProps = {
@@ -61,7 +62,12 @@ export default function SideBarClient({
           Client
         </button>
       </header>
-      <section className="relative flex flex-col justify-start gap-12 p-margin h-[calc(100%-var(--headerH))] overflow-hidden">
+      <section
+        className={clsx(
+          "relative flex flex-col justify-start gap-12 p-margin h-[calc(100%-var(--headerH))] overflow-hidden",
+          { "overflow-y-auto": activeSlug === "client" },
+        )}
+      >
         <Content defaultData={pageData} />
       </section>
     </>

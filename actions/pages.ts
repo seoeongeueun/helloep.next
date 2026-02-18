@@ -1,7 +1,7 @@
 "use server";
 
 import { ApiError, apiRequestWithHeaders } from "@/lib/apiRequest";
-import { WP_BASE_URL, parseWpTableSections } from "@/lib";
+import { WP_BASE_URL, decodeHtmlEntities, parseWpTableSections } from "@/lib";
 import { WPPage, SidebarSlug } from "@/types";
 
 // slug을 기준으로 페이지 데이터를 가져오는 함수
@@ -23,6 +23,8 @@ export async function getPages({
       response.data.length > 0
     ) {
       page.tableSections = parseWpTableSections(page.content.rendered);
+    } else {
+      page.content.rendered = decodeHtmlEntities(page.content.rendered);
     }
 
     return page;
