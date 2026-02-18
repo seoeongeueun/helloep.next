@@ -6,6 +6,7 @@ import { pagesQueries } from "@/query";
 import { useAppState } from "@/context/AppStateContext";
 import type { SidebarSlug, WPPage } from "@/types";
 import clsx from "clsx";
+import { Suspense } from "react";
 
 type SideBarClientProps = {
   defaultData?: WPPage;
@@ -35,7 +36,9 @@ export default function SideBarClient({
   return (
     <>
       <header className="flex flex-row px-margin w-full justify-end items-center gap-spacing-10 h-headerH border-b border-px border-gray text-m">
-        <ExpandButton />
+        <Suspense fallback={null}>
+          <ExpandButton />
+        </Suspense>
         <button
           type="button"
           aria-label="Contact"
