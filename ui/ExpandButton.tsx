@@ -28,7 +28,7 @@ export function ExpandButton() {
       type="button"
       aria-label={isDetailPage ? "목록으로 돌아가기" : "전체 화면으로 보기"}
       onClick={handleClick}
-      className="flex flex-row items-center w-[4rem] h-[4rem] mr-auto"
+      className="hidden desktop:flex flex-row items-center w-spacing-40 h-spacing-40 mr-auto"
     >
       <Image
         src={

@@ -26,18 +26,26 @@ export default function Figures({ initialData }: FiguresProps) {
   //초기 데이터가 있는 경우 상세페이지기 때문에 조금 다른 css를 부여한다
   const isDetailPage = !!initialData;
 
+  const currentPost = post || initialData;
+  const content =
+    language === "ko" ||
+    !currentPost?.content_en ||
+    currentPost.content_en.length === 0
+      ? currentPost?.content_ko
+      : currentPost?.content_en;
+
   const tagName = useMemo(() => {
-    if (!tags || !post?.tags?.length) return "";
-    return tags.find((t) => t.id === post.tags[0])?.name ?? "";
-  }, [tags, post]);
+    if (!tags || !currentPost?.tags?.length) return "";
+    return tags.find((t) => t.id === currentPost.tags[0])?.name ?? "";
+  }, [tags, currentPost]);
 
   const categoryInfos = useMemo(() => {
-    if (!categories || !post?.categories) return [];
+    if (!categories || !currentPost?.categories) return [];
 
-    return post.categories.map((catId) =>
+    return currentPost.categories.map((catId) =>
       categories.find((cat) => cat.id === catId),
     );
-  }, [categories, post]);
+  }, [categories, currentPost]);
 
   return (
     <section
@@ -48,8 +56,8 @@ export default function Figures({ initialData }: FiguresProps) {
       <header className="flex flex-row items-start justify-between gap-spacing-10 py-margin pt-0">
         <h2 className="text-[2.5rem] border-none! w-full">
           {language === "ko"
-            ? post?.title_ko
-            : post?.title_en || post?.title.rendered}
+            ? currentPost?.title_ko
+            : currentPost?.title_en || currentPost?.title.rendered}
         </h2>
         <time className={clsx("h-[2.3rem]", { "ml-auto": isDetailPage })}>
           {tagName}
@@ -60,8 +68,8 @@ export default function Figures({ initialData }: FiguresProps) {
           ))}
         </ul>
       </header>
-      <article className="space-y-spacing-10">
-        {post?.images.map((src, i) => (
+      <article className="space-y-spacing-10 word-keep w-full">
+        {currentPost?.images?.map((src, i) => (
           <figure key={i} className="w-full">
             <Image
               src={src}
@@ -73,6 +81,13 @@ export default function Figures({ initialData }: FiguresProps) {
             />
           </figure>
         ))}
+        <div className="block desktop:hidden desktop:w-0 w-full">
+          {content?.map((paragraph, i) => (
+            <p key={i} className="whitespace-pre-line">
+              {paragraph}
+            </p>
+          ))}
+        </div>
       </article>
     </section>
   );

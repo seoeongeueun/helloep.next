@@ -6,7 +6,7 @@ export default async function SideBar() {
   const pageData = await getPages({ slug: "cv" });
 
   return (
-    <aside className="sticky top-0 font-normal min-w-[40rem] w-[29%] border-l border-px border-gray">
+    <aside className="hidden fixed left-0 w-[calc(100%-4rem)] border-r border-gray desktop:w-[29%] z-50 bg-black h-full desktop:sticky top-0 font-normal min-w-[40rem]  border-l border-px border-gray">
       <SideBarClient defaultData={pageData} defaultSlug="cv" />
     </aside>
   );

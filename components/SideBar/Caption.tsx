@@ -65,7 +65,7 @@ export default function Caption() {
         <button
           type="button"
           aria-label="더보기"
-          className="relative z-30 w-[4rem] h-[4rem] flex items-center justify-center cursor-pointer"
+          className="relative z-30 w-spacing-40 h-spacing-40 flex items-center justify-center cursor-pointer"
           onClick={size === 1 ? () => setSize(0) : undefined}
         >
           <Image

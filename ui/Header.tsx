@@ -7,7 +7,7 @@ export function Header() {
   const { language, setLanguage } = useAppState();
 
   return (
-    <header className="sticky top-0 border-r shrink-0 font-inter text-gray text-m px-margin h-headerH border-b border-px border-gray z-50 bg-black">
+    <header className="sticky top-0 border-r shrink-0 font-inter text-gray text-m desktop:px-margin h-headerH border-b border-px border-gray z-50 bg-black">
       <nav
         className="flex flex-row justify-between items-center h-full"
         aria-label="Primary"
@@ -15,7 +15,7 @@ export function Header() {
         <Link
           href="/"
           aria-label="홈 페이지"
-          className="group uppercase text-white! relative [&>span]:transition-opacity [&>span]:duration-150 [&>span]:group-hover:delay-100"
+          className="px-margin desktop:px-0 group uppercase text-white! relative [&>span]:transition-opacity [&>span]:duration-150 [&>span]:group-hover:delay-100"
         >
           <span className="group-hover:opacity-0">EVERYDAY PRACTICE</span>
           <span className="inset-0 absolute opacity-0 group-hover:opacity-100">
@@ -44,9 +44,19 @@ export function Header() {
           </button>
         </div>
 
-        <a href="mailto:hello@everyday-practice.com" aria-label="이메일 보내기">
+        <a
+          href="mailto:hello@everyday-practice.com"
+          aria-label="이메일 보내기"
+          className="hidden desktop:block"
+        >
           hello@everyday-practice.com
         </a>
+        <button
+          type="button"
+          className="block desktop:hidden relative inset-0 w-spacing-40 h-spacing-40 -right-spacing-40"
+        >
+          <span className="absolute top-1/2 left-1/2 w-spacing-20 h-px -translate-x-1/2 -translate-y-1/2 bg-white before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:w-px before:h-spacing-20 before:bg-white before:-translate-x-1/2 before:-translate-y-1/2"></span>
+        </button>
       </nav>
     </header>
   );
