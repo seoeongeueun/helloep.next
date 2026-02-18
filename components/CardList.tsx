@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import Card from "./Card";
 import List from "./List";
-import { SearchBar } from "@/ui";
+import { SearchBar, Results } from "@/ui";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import Pagination from "./Pagination";
@@ -78,13 +78,18 @@ export default function CardList() {
   }
 
   return (
-    <main className="relative top-30 px-margin flex flex-col">
-      <SearchBar />
+    <main className="relative tablet:top-30 px-margin flex flex-col">
+      <div className="hidden tablet:block">
+        <SearchBar />
+      </div>
+      <div className="w-full block tablet:hidden">
+        <Results />
+      </div>
       <section
         className={twMerge(
           clsx(
             "flex flex-wrap w-full gap-spacing-10",
-            viewMode === "grid" ? "py-20" : "py-0",
+            viewMode === "grid" ? "tablet:py-20" : "py-0",
             {
               "grid-cols-1 phone_large:grid-cols-2 tablet:grid-cols-4":
                 isLoading,

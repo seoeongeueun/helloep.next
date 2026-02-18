@@ -1,5 +1,5 @@
 import CardList from "@/components/CardList";
-import { Filters } from "@/ui";
+import { Filters, FiltersMobile } from "@/ui";
 import { Suspense } from "react";
 
 export default function Home() {
@@ -10,6 +10,7 @@ export default function Home() {
     >
       <Suspense fallback={null}>
         <Filters />
+        <FiltersMobile />
       </Suspense>
       <Suspense
         fallback={

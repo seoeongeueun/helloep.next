@@ -33,9 +33,9 @@ export function SearchBar() {
   };
 
   return (
-    <div className="flex flex-row justify-between gap-4">
+    <div className="flex flex-row justify-between gap-4 text-s">
       <form
-        className="flex flex-row bg-secondary border-b border-gray px-margin py-2 w-1/2"
+        className="flex flex-row-reverse gap-spacing-4 tablet:flex-row tablet:bg-secondary border-b border-gray tablet:px-margin py-2 w-full tablet:w-1/2"
         role="search"
         aria-label="검색"
         onSubmit={handleSearch}
@@ -62,7 +62,7 @@ export function SearchBar() {
           />
         </button>
       </form>
-      <div className="flex flex-row w-1/2 gap-4 ">
+      <div className="hidden tablet:flex flex-row w-1/2 gap-4 ">
         <Dropdown />
         <Results />
       </div>

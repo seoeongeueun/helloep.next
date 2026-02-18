@@ -2,24 +2,45 @@
 
 import { useState, useEffect, useMemo, memo } from "react";
 import Image from "next/image";
-import { tagsQueries } from "@/query";
+import { tagsQueries, categoriesQueries } from "@/query";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 
-export const Dropdown = memo(function Dropdown() {
+type DropdownMode = "year" | "category";
+
+interface DropdownProps {
+  mode?: DropdownMode;
+}
+
+export const Dropdown = memo(function Dropdown({
+  mode = "year",
+}: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const { data: tags = [] } = useQuery(tagsQueries.all());
+
+  // mode에 따라 다른 데이터 fetch
+  const { data: tags = [] } = useQuery({
+    ...tagsQueries.all(),
+    enabled: mode === "year",
+  });
+  const { data: categories = [] } = useQuery({
+    ...categoriesQueries.all(),
+    enabled: mode === "category",
+  });
 
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // 현재 선택된 year 값
-  const selectedYear = searchParams.get("year");
+  // mode에 따라 다른 선택 값 가져오기
+  const selectedValue = searchParams.get(mode === "year" ? "year" : "category");
 
-  const handleTagSelect = (tagName: string) => {
+  // mode에 따라 적절한 데이터 사용
+  const data = mode === "year" ? tags : categories;
+
+  const handleItemSelect = (itemName: string) => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set("year", tagName);
+    const paramKey = mode === "year" ? "year" : "category";
+    params.set(paramKey, itemName);
     params.delete("page"); // 페이지 리셋
     router.push(`?${params.toString()}`);
     setIsOpen(false);
@@ -27,16 +48,17 @@ export const Dropdown = memo(function Dropdown() {
 
   const handleClearSelection = () => {
     const params = new URLSearchParams(searchParams.toString());
-    params.delete("year");
+    const paramKey = mode === "year" ? "year" : "category";
+    params.delete(paramKey);
     params.delete("page");
     router.push(`?${params.toString()}`);
     setIsOpen(false);
   };
 
-  // 태그 이름을 내림차순으로 정렬
-  const sortedTags = useMemo(() => {
-    return [...tags].sort((a, b) => b.name.localeCompare(a.name));
-  }, [tags]);
+  // 데이터를 이름으로 내림차순 정렬
+  const sortedData = useMemo(() => {
+    return [...data].sort((a, b) => b.name.localeCompare(a.name));
+  }, [data]);
 
   // 외부 영역 클릭 시 드롭다운 닫기
   const handleClickOutside = (event: PointerEvent) => {
@@ -61,8 +83,8 @@ export const Dropdown = memo(function Dropdown() {
         aria-haspopup="true"
         aria-expanded={isOpen}
       >
-        <span className="text-white pointer-events-none">
-          {selectedYear || "Year"}
+        <span className="text-gray text-s tablet:text-white pointer-events-none">
+          {selectedValue || (mode === "year" ? "Year" : "All")}
         </span>
         <div className="flex items-center gap-2">
           <Image
@@ -85,21 +107,21 @@ export const Dropdown = memo(function Dropdown() {
       >
         <li
           onClick={handleClearSelection}
-          className={`hover:bg-selected cursor-pointer py-2 ${!selectedYear ? "bg-selected text-white" : ""}`}
+          className={`hover:bg-selected cursor-pointer py-2 ${!selectedValue ? "bg-selected text-white" : ""}`}
         >
-          Year
+          {mode === "year" ? "Year" : "Category"}
         </li>
 
-        {sortedTags.map((tag) => (
+        {sortedData.map((item) => (
           <li
-            key={tag.name}
-            className={`hover:bg-selected cursor-pointer py-2 ${selectedYear === tag.name ? "bg-selected text-white" : ""}`}
+            key={item.name}
+            className={`hover:bg-selected cursor-pointer py-2 ${selectedValue === item.name ? "bg-selected text-white" : ""}`}
             onClick={(e) => {
               e.stopPropagation();
-              handleTagSelect(tag.name);
+              handleItemSelect(item.name);
             }}
           >
-            {tag.name}
+            {item.name}
           </li>
         ))}
       </ul>

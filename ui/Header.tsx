@@ -37,7 +37,7 @@ export function Header() {
           className="px-margin desktop:px-0 group uppercase text-white! relative [&>span]:transition-opacity [&>span]:duration-150 [&>span]:group-hover:delay-100"
         >
           <span className="group-hover:opacity-0">EVERYDAY PRACTICE</span>
-          <span className="inset-0 absolute opacity-0 group-hover:opacity-100">
+          <span className="inset-0 left-margin desktop:left-0 absolute opacity-0 group-hover:opacity-100">
             일상의실천
           </span>
         </Link>

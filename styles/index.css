@@ -84,7 +84,7 @@
 }
 
 /* 타블렛 크기 이상 디바이스에서 적용되는 스타일 */
-@media screen and (min-width: 429px) {
+@media screen and (min-width: 639px) {
   :root {
     --ep-margin: 10px;
     --ep-margin-s: 5px;
@@ -128,6 +128,20 @@ a:hover {
 
 input:focus {
   outline: none;
+}
+
+input {
+  background: transparent;
+}
+
+/* 검색어 지우기 x 버튼 숨기기 */
+input::-webkit-search-cancel-button,
+input::-webkit-search-decoration {
+  display: none;
+}
+
+input:-internal-autofill-selected {
+  background-color: transparent;
 }
 
 /* 제목은 기본 회색 border를 적용하지만 카드내 제목은 제외 */
