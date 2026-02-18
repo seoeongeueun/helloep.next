@@ -47,6 +47,11 @@ export type PostListResponse = {
 type TableSectionItem = { year: string; label: string };
 export type TableSection = { title: string; items: TableSectionItem[] };
 
+export interface WPPage extends WPPost {
+  //페이지는 포스트의 모든 필드를 가지고 추가로 table 관련 optional 필드를 가진다
+  tableSections?: TableSection[];
+}
+
 //목록 뷰 타입
 export type ViewMode = "grid" | "list";
 

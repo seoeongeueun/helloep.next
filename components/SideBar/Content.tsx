@@ -2,9 +2,9 @@
 import Caption from "./Caption";
 import Figures from "./Figures";
 import { useAppState } from "@/context/AppStateContext";
+import type { WPPage } from "@/types";
 
-//TODO: 타입 수정 필요!
-export default function Content({ defaultData }: { defaultData?: any }) {
+export default function Content({ defaultData }: { defaultData?: WPPage }) {
   const { selectedProjectId } = useAppState();
 
   // selectedProjectId가 있으면 선택된 프로젝트, 없으면 기본 CV 데이터 표시

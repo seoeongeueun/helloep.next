@@ -13,7 +13,7 @@ type PostDetailPageProps = {
 export default async function PostDetailPage({ params }: PostDetailPageProps) {
   const { id } = await params;
   const postId = Number(id);
-  if (!Number.isInteger(postId)) return notFound();
+  if (!Number.isInteger(postId)) notFound();
 
   const post = await getPostById(postId);
 

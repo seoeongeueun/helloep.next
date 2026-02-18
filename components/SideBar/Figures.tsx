@@ -2,7 +2,7 @@
 import { useAppState } from "@/context/AppStateContext";
 import { useQuery } from "@tanstack/react-query";
 import { postsQueries, tagsQueries, categoriesQueries } from "@/query";
-import { useMemo, useEffect } from "react";
+import { useMemo } from "react";
 import { Tag } from "@/ui";
 import Image from "next/image";
 import type { WPPost, ParsedContent } from "@/types";
@@ -14,7 +14,7 @@ interface FiguresProps {
 }
 
 export default function Figures({ initialData }: FiguresProps) {
-  const { selectedProjectId, language, selectProject } = useAppState();
+  const { selectedProjectId, language } = useAppState();
   const { data: post } = useQuery({
     ...postsQueries.detail(selectedProjectId ?? 0),
     enabled: !!selectedProjectId,

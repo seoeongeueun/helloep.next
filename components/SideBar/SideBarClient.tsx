@@ -4,12 +4,11 @@ import Content from "./Content";
 import { useQuery } from "@tanstack/react-query";
 import { pagesQueries } from "@/query";
 import { useAppState } from "@/context/AppStateContext";
-import type { SidebarSlug } from "@/types";
+import type { SidebarSlug, WPPage } from "@/types";
 import clsx from "clsx";
 
-//TODO: 페이지 데이터 타입 정의 필요 (현재는 unknown으로 처리)
 type SideBarClientProps = {
-  defaultData?: unknown;
+  defaultData?: WPPage;
   defaultSlug?: SidebarSlug;
 };
 

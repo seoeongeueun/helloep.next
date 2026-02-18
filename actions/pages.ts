@@ -9,7 +9,7 @@ export async function getPages({
   slug,
 }: {
   slug: SidebarSlug;
-}): Promise<unknown> {
+}): Promise<WPPage | undefined> {
   try {
     const response = await apiRequestWithHeaders<WPPage[]>(
       `${WP_BASE_URL}/pages?slug=${slug}`,
@@ -33,8 +33,8 @@ export async function getPages({
       error instanceof ApiError &&
       (error.status === 400 || error.status === 404)
     ) {
-      // 페이지가 없거나 잘못된 요청인 경우 빈 배열 반환
-      return [];
+      // 페이지가 없거나 잘못된 요청인 경우 undefined 반환
+      return undefined;
     }
     // 그 외의 에러는 상위로 던져서 처리
     throw error;

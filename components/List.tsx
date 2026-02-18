@@ -13,7 +13,6 @@ interface CardProps {
   post: WPPost;
 }
 
-//TODO: 카테고리 ID를 실제 카테고리 이름과 매핑하는 로직 필요
 export default function List({ post }: CardProps) {
   const { data: categories } = useQuery(categoriesQueries.all());
   const { data: tags } = useQuery(tagsQueries.all());
