@@ -4,15 +4,16 @@ import { useEffect } from "react";
 import Card from "./Card";
 import List from "./List";
 import { SearchBar } from "@/ui";
-import type { ViewMode } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import Pagination from "./Pagination";
 import clsx from "clsx";
 import { useActivePostsQuery } from "@/hooks/useActivePostsQuery";
 import type { WPPost } from "@/types";
+import { useAppState } from "@/context/AppStateContext";
 
-export default function CardList({ viewMode }: { viewMode: ViewMode }) {
+export default function CardList() {
+  const { viewMode } = useAppState();
   const searchParams = useSearchParams();
   const currentPage = Math.max(Number(searchParams.get("page")) || 1, 1);
 

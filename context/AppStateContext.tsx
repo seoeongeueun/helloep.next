@@ -8,7 +8,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { LanguageMode, SidebarSlug } from "@/types";
+import { LanguageMode, SidebarSlug, ViewMode } from "@/types";
 
 type SidebarMode =
   | { mode: "page"; slug: SidebarSlug }
@@ -19,9 +19,11 @@ type AppStateContextValue = {
   language: LanguageMode;
   selectedProjectId: number | null;
   activeSlug: SidebarSlug | null;
+  viewMode: ViewMode;
   setLanguage: (language: LanguageMode) => void;
   selectProject: (projectId: number) => void;
   selectPage: (slug: SidebarSlug) => void;
+  setViewMode: (mode: ViewMode) => void;
 };
 
 const AppStateContext = createContext<AppStateContextValue | null>(null);
@@ -36,6 +38,7 @@ export function AppStateProvider({ children }: AppStateProviderProps) {
     mode: "page",
     slug: "cv",
   });
+  const [viewMode, setViewMode] = useState<ViewMode>("grid"); //디폴트는 그리드 뷰
 
   const handleSetLanguage = useCallback((next: LanguageMode) => {
     setLanguage(next);
@@ -61,6 +64,8 @@ export function AppStateProvider({ children }: AppStateProviderProps) {
       setLanguage: handleSetLanguage,
       selectProject,
       selectPage,
+      viewMode,
+      setViewMode,
     }),
     [
       language,
@@ -69,6 +74,8 @@ export function AppStateProvider({ children }: AppStateProviderProps) {
       handleSetLanguage,
       selectProject,
       selectPage,
+      viewMode,
+      setViewMode,
     ],
   );
 

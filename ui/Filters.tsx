@@ -3,10 +3,12 @@
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { categoriesQueries } from "@/query/categoriesQuery";
+import { useAppState } from "@/context/AppStateContext";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export function Filters() {
   const { data: categories = [] } = useQuery(categoriesQueries.all());
+  const { setViewMode, viewMode } = useAppState();
 
   // 현재 URL에서 쿼리 파라미터를 읽어서 현재 선택된 카테고리를 결정
   const router = useRouter();
@@ -67,7 +69,11 @@ export function Filters() {
       >
         <button
           type="button"
+          aria-label={
+            viewMode === "list" ? "이미지 뷰로 변경" : "목록 뷰로 변경"
+          }
           className="flex flex-row items-center justify-end justify-self-end"
+          onClick={() => setViewMode(viewMode === "list" ? "grid" : "list")}
         >
           <Image
             src="/icons/icon_list.svg"
@@ -76,7 +82,7 @@ export function Filters() {
             width={16}
             height={16}
           />
-          <span className="ml-px">list</span>
+          <span className="ml-px">{viewMode === "list" ? "img" : "list"}</span>
         </button>
       </div>
     </nav>
