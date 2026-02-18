@@ -5,9 +5,11 @@ import {
   HydrationBoundary,
 } from "@tanstack/react-query";
 import SideBar from "@/components/SideBar/SideBar";
+import SideBarMobile from "@/components/SideBar/SideBarMobile";
 import QueryProvider from "@/query/QueryProvider";
 import { categoriesQueries, tagsQueries } from "@/query";
 import { AppStateProvider } from "@/context/AppStateContext";
+import { SidebarProvider } from "@/context/SidebarContext";
 import { QUERY_CLIENT_DEFAULT_OPTIONS } from "@/lib";
 import { Header } from "@/ui";
 import "@/styles/index.css";
@@ -36,15 +38,19 @@ export default async function RootLayout({
     <html lang="en">
       <body className="antialiased font-normal text-s flex flex-row gap-spacing-10 w-full">
         <AppStateProvider>
-          <QueryProvider>
-            <HydrationBoundary state={dehydrate(queryClient)}>
-              <div className="flex flex-col w-full">
-                <Header />
-                {children}
-              </div>
-              <SideBar />
-            </HydrationBoundary>
-          </QueryProvider>
+          <SidebarProvider defaultOpen={false} defaultDirection="horizontal">
+            <QueryProvider>
+              <HydrationBoundary state={dehydrate(queryClient)}>
+                <div className="flex flex-col w-full">
+                  <Header />
+                  {children}
+                </div>
+                {/* Desktop: SideBar만 , Mobile: SideBarMobile만 미디어 쿼리로 내부에서 처리 */}
+                <SideBar />
+                <SideBarMobile />
+              </HydrationBoundary>
+            </QueryProvider>
+          </SidebarProvider>
         </AppStateProvider>
       </body>
     </html>

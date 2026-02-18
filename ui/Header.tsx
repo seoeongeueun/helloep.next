@@ -2,9 +2,12 @@
 
 import Link from "next/link";
 import { useAppState } from "@/context/AppStateContext";
+import { useSidebar } from "@/context/SidebarContext";
+import clsx from "clsx";
 
 export function Header() {
   const { language, setLanguage } = useAppState();
+  const { toggleSidebar, setDirection, isOpen } = useSidebar();
 
   return (
     <header className="sticky top-0 border-r shrink-0 font-inter text-gray text-m desktop:px-margin h-headerH border-b border-px border-gray z-50 bg-black">
@@ -53,9 +56,15 @@ export function Header() {
         </a>
         <button
           type="button"
-          className="block desktop:hidden relative inset-0 w-spacing-40 h-spacing-40 -right-spacing-40"
+          className="block desktop:hidden relative inset-0 w-spacing-40 h-spacing-40 -right-spacing-40 z-50 cursor-pointer"
+          onClick={toggleSidebar}
         >
-          <span className="absolute top-1/2 left-1/2 w-spacing-20 h-px -translate-x-1/2 -translate-y-1/2 bg-white before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:w-px before:h-spacing-20 before:bg-white before:-translate-x-1/2 before:-translate-y-1/2"></span>
+          <span
+            className={clsx(
+              "absolute top-1/2 left-1/2 transition-transform w-spacing-20 h-px -translate-x-1/2 -translate-y-1/2 bg-[white] before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:w-px before:h-spacing-20 before:bg-[white] before:-translate-x-1/2 before:-translate-y-1/2",
+              { "rotate-45": isOpen },
+            )}
+          ></span>
         </button>
       </nav>
     </header>

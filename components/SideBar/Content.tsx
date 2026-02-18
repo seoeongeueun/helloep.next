@@ -3,6 +3,7 @@ import Caption from "./Caption";
 import Figures from "./Figures";
 import { useAppState } from "@/context/AppStateContext";
 import type { WPPage } from "@/types";
+import clsx from "clsx";
 
 export default function Content({ defaultData }: { defaultData?: WPPage }) {
   const { selectedProjectId } = useAppState();
@@ -52,7 +53,13 @@ export default function Content({ defaultData }: { defaultData?: WPPage }) {
             <thead>
               <tr>
                 <th colSpan={2}>
-                  <h2 className="uppercase text-start">{section.title}</h2>
+                  <h2
+                    className={clsx("uppercase text-start", {
+                      "border-none!": defaultData?.slug === "contact",
+                    })}
+                  >
+                    {section.title}
+                  </h2>
                 </th>
               </tr>
             </thead>
