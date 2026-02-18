@@ -14,11 +14,13 @@ type SidebarDirection = "horizontal" | "vertical";
 interface SidebarState {
   isOpen: boolean;
   direction: SidebarDirection;
+  isMobile: boolean;
 }
 
 interface SidebarContextType {
   isOpen: boolean;
   direction: SidebarDirection;
+  isMobile: boolean;
   toggleSidebar: () => void;
   setDirection: (direction: SidebarDirection) => void;
 }
@@ -39,25 +41,30 @@ export function SidebarProvider({
   const [state, setState] = useState<SidebarState>({
     isOpen: defaultOpen,
     direction: defaultDirection,
+    isMobile: false, // 초기값, useEffect에서 실제 값 설정
   });
 
-  // Desktop 크기(1024px 이상)에서는 무조건 열린 상태로 강제
+  // Desktop/Mobile 감지 및 사이드바 상태 관리
   useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 1024px)");
 
     const handleMediaQueryChange = (e: MediaQueryListEvent) => {
-      if (e.matches) {
-        // Desktop 크기: 무조건 열린 상태로 강제
-        setState((prev) => ({ ...prev, isOpen: true }));
-      }
-      // 작아지면 자동 변경 없이 현재 상태 유지 (사용자가 직접 제어)
+      const isDesktop = e.matches;
+      setState((prev) => ({
+        ...prev,
+        isMobile: !isDesktop,
+        isOpen: isDesktop ? true : prev.isOpen, // Desktop에서는 무조건 열림
+      }));
     };
 
     // 초기 실행
-    if (mediaQuery.matches) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setState((prev) => ({ ...prev, isOpen: true }));
-    }
+    const isDesktop = mediaQuery.matches;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setState((prev) => ({
+      ...prev,
+      isMobile: !isDesktop,
+      isOpen: isDesktop ? true : prev.isOpen,
+    }));
 
     mediaQuery.addEventListener("change", handleMediaQueryChange);
     return () => {
@@ -66,9 +73,8 @@ export function SidebarProvider({
   }, []);
 
   const toggleSidebar = () => {
-    // Desktop에서는 토글 무시
-    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
-    if (isDesktop) return;
+    // Mobile에서만 토글 가능
+    if (!state.isMobile) return;
 
     setState((prev) => ({ ...prev, isOpen: !prev.isOpen }));
   };
@@ -80,6 +86,7 @@ export function SidebarProvider({
   const value: SidebarContextType = {
     isOpen: state.isOpen,
     direction: state.direction,
+    isMobile: state.isMobile,
     toggleSidebar,
     setDirection,
   };

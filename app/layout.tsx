@@ -47,7 +47,7 @@ export default async function RootLayout({
                 </div>
                 {/* Desktop: SideBar만 , Mobile: SideBarMobile만 미디어 쿼리로 내부에서 처리 */}
                 <SideBar />
-                <SideBarMobile />
+                {/* <SideBarMobile /> */}
               </HydrationBoundary>
             </QueryProvider>
           </SidebarProvider>
