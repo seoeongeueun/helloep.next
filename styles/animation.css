@@ -19,3 +19,25 @@
     transform: translateY(-10px);
   }
 }
+
+@keyframes slideInHorizontal {
+  from {
+    transform: translateX(-100%) translateY(0);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutHorizontal {
+  from {
+    transform: translateX(0) translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%) translateY(0);
+    opacity: 0;
+  }
+}

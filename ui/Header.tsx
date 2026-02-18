@@ -17,13 +17,11 @@ export function Header() {
   const isDetailPage = /^\/\d+$/.test(pathname ?? "");
 
   const toggleMobileSidebar = () => {
+    toggleSidebar();
     //상세 페이지인 경우 params을 유지한 채로 홈 화면으로 리다이렉트
     if (isDetailPage) {
       selectPage("contact");
-      closeSidebar();
       router.push(`/?${searchParams.toString()}`);
-    } else {
-      toggleSidebar();
     }
   };
 

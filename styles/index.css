@@ -46,6 +46,8 @@
 
   --animate-fadeIn: fadeIn 0.2s ease-in-out forwards;
   --animate-fadeOut: fadeOut 0.2s ease-in-out forwards;
+  --animate-slideInHorizontal: slideInHorizontal 0.5s ease-in-out forwards;
+  --animate-slideOutHorizontal: slideOutHorizontal 0.5s ease-in-out forwards;
 
   --background-image-black-fade:
     linear-gradient(180deg, transparent 0%, transparent 20%, var(--black) 100%);
@@ -126,14 +128,6 @@ a:hover {
 
 input:focus {
   outline: none;
-}
-
-.open {
-  animation: fadeIn 0.2s ease-in-out forwards;
-}
-
-.closed {
-  animation: fadeOut 0.2s ease-in-out forwards;
 }
 
 /* 제목은 기본 회색 border를 적용하지만 카드내 제목은 제외 */

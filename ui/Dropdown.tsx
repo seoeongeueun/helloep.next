@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, memo } from "react";
 import Image from "next/image";
 import { tagsQueries } from "@/query";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
+import { twMerge } from "tailwind-merge";
 
-export function Dropdown() {
+export const Dropdown = memo(function Dropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const { data: tags = [] } = useQuery(tagsQueries.all());
 
@@ -75,7 +76,12 @@ export function Dropdown() {
         </div>
       </button>
       <ul
-        className={`absolute w-full bg-secondary px-margin-s max-h-40 overflow-auto border-b border-b-gray z-20 ${isOpen ? "open pointer-events-auto" : "closed pointer-events-none"}`}
+        className={twMerge(
+          "absolute w-full bg-secondary transition-opacity px-margin-s max-h-40 overflow-auto border-b border-b-gray z-20",
+          isOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none",
+        )}
       >
         <li
           onClick={handleClearSelection}
@@ -99,4 +105,4 @@ export function Dropdown() {
       </ul>
     </div>
   );
-}
+});
