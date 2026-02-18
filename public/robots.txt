@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# 사이트맵 위치 (배포 시 실제 도메인으로 변경 필요)
+Sitemap: https://hello-ep-seongeun.vercel.app/sitemap.xml
+
+# 크롤링 속도 제한 (선택사항)
+Crawl-delay: 1

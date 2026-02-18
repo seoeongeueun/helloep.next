@@ -2,16 +2,15 @@ import CardList from "@/components/CardList";
 import { Filters, FiltersMobile } from "@/ui";
 import { Suspense } from "react";
 
+// useSearchParams 사용으로 인해 dynamic 렌더링 필요
+export const dynamic = "force-dynamic";
+
 export default function Home() {
   return (
     <div
       id="main-scroll"
       className="flex flex-col border-r border-px border-gray w-full h-full overflow-y-auto"
     >
-      <Suspense fallback={null}>
-        <Filters />
-        <FiltersMobile />
-      </Suspense>
       <Suspense
         fallback={
           <main className="relative top-30 px-margin flex flex-col">
@@ -28,6 +27,8 @@ export default function Home() {
           </main>
         }
       >
+        <Filters />
+        <FiltersMobile />
         <CardList />
       </Suspense>
     </div>
