@@ -47,7 +47,7 @@ export default function Card({ post }: CardProps) {
   //TODO: 반응형 수정 필요
   return (
     <article
-      className="grow h-auto max-w-[calc(33%-0.3rem)] flex flex-col items-start justify-end gap-spacing-3 relative after:absolute after:inset-0 after:bg-black/50 after:z-30 after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-200 after:pointer-events-none cursor-pointer"
+      className="grow h-auto tablet:max-w-[calc(50%-1rem)] flex flex-col items-start justify-end gap-spacing-3 relative after:absolute after:inset-0 after:bg-black/50 after:z-30 after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-200 after:pointer-events-none cursor-pointer"
       onClick={handleProjectSelect}
     >
       {post.jetpack_featured_media_url && (

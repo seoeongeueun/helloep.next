@@ -31,7 +31,7 @@ export default function SideBarMobile() {
         !selectedProjectId && isOpen && "translate-x-0", // 일반 페이지 열림 (좌우)
         !selectedProjectId && !isOpen && !isDetailPage && "-translate-x-full", // 일반 페이지 닫힘 (좌우)
         selectedProjectId && "w-full",
-        !isDetailPage && "h-full",
+        !isDetailPage && "h-[calc(100%-var(--headerH))]",
       )}
     >
       {!selectedProjectId && <SideBarHeader />}

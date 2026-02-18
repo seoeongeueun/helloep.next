@@ -11,6 +11,7 @@ import clsx from "clsx";
 import { useActivePostsQuery } from "@/hooks/useActivePostsQuery";
 import type { WPPost } from "@/types";
 import { useAppState } from "@/context/AppStateContext";
+import { twMerge } from "tailwind-merge";
 
 export default function CardList() {
   const { viewMode } = useAppState();
@@ -80,12 +81,19 @@ export default function CardList() {
     <main className="relative top-30 px-margin flex flex-col">
       <SearchBar />
       <section
-        className={clsx(
-          "flex flex-wrap w-full py-20 gap-spacing-10",
-          {
-            "grid-cols-1 phone_large:grid-cols-2 tablet:grid-cols-4": isLoading,
-          },
-          { "grid gap-spacing-10 ": viewMode === "grid" && isLoading },
+        className={twMerge(
+          clsx(
+            "flex flex-wrap w-full gap-spacing-10",
+            viewMode === "grid" ? "py-20" : "py-0",
+            {
+              "grid-cols-1 phone_large:grid-cols-2 tablet:grid-cols-4":
+                isLoading,
+            },
+            {
+              "grid grid-cols-1 tablet:flex tablet:flex-wrap gap-spacing-10 ":
+                viewMode === "grid",
+            },
+          ),
         )}
       >
         {isLoading ? renderSkeleton() : renderPosts()}
