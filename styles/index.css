@@ -46,10 +46,6 @@
 
   --animate-fadeIn: fadeIn 0.2s ease-in-out forwards;
   --animate-fadeOut: fadeOut 0.2s ease-in-out forwards;
-  --animate-slideInHorizontal: slideInHorizontal 0.5s ease-in-out forwards;
-  --animate-slideOutHorizontal: slideOutHorizontal 0.5s ease-in-out forwards;
-  --animate-slideInVertical: slideInVertical 0.2s ease-in-out forwards;
-  --animate-slideOutVertical: slideOutVertical 0.2s ease-in-out forwards;
 
   --background-image-black-fade:
     linear-gradient(180deg, transparent 0%, transparent 20%, var(--black) 100%);

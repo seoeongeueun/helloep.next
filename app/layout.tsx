@@ -38,7 +38,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className="antialiased font-normal text-s flex flex-row gap-spacing-10 w-full">
         <AppStateProvider>
-          <SidebarProvider defaultOpen={false} defaultDirection="horizontal">
+          <SidebarProvider defaultOpen={false}>
             <QueryProvider>
               <HydrationBoundary state={dehydrate(queryClient)}>
                 <div className="flex flex-col w-full">

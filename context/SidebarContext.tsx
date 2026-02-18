@@ -13,16 +13,14 @@ type SidebarDirection = "horizontal" | "vertical";
 
 interface SidebarState {
   isOpen: boolean;
-  direction: SidebarDirection;
   isMobile: boolean;
 }
 
 interface SidebarContextType {
   isOpen: boolean;
-  direction: SidebarDirection;
   isMobile: boolean;
   toggleSidebar: () => void;
-  setDirection: (direction: SidebarDirection) => void;
+  closeSidebar: () => void;
 }
 
 const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
@@ -30,17 +28,14 @@ const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
 interface SidebarProviderProps {
   children: ReactNode;
   defaultOpen?: boolean;
-  defaultDirection?: SidebarDirection;
 }
 
 export function SidebarProvider({
   children,
   defaultOpen = false,
-  defaultDirection = "horizontal",
 }: SidebarProviderProps) {
   const [state, setState] = useState<SidebarState>({
     isOpen: defaultOpen,
-    direction: defaultDirection,
     isMobile: false, // 초기값, useEffect에서 실제 값 설정
   });
 
@@ -79,16 +74,17 @@ export function SidebarProvider({
     setState((prev) => ({ ...prev, isOpen: !prev.isOpen }));
   };
 
-  const setDirection = (direction: SidebarDirection) => {
-    setState((prev) => ({ ...prev, direction }));
+  const closeSidebar = () => {
+    if (!state.isMobile) return;
+
+    setState((prev) => ({ ...prev, isOpen: false }));
   };
 
   const value: SidebarContextType = {
     isOpen: state.isOpen,
-    direction: state.direction,
     isMobile: state.isMobile,
     toggleSidebar,
-    setDirection,
+    closeSidebar,
   };
 
   return (

@@ -4,10 +4,28 @@ import Link from "next/link";
 import { useAppState } from "@/context/AppStateContext";
 import { useSidebar } from "@/context/SidebarContext";
 import clsx from "clsx";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export function Header() {
-  const { language, setLanguage } = useAppState();
-  const { toggleSidebar, setDirection, isOpen } = useSidebar();
+  const { language, setLanguage, selectPage } = useAppState();
+  const { toggleSidebar, closeSidebar, isOpen } = useSidebar();
+
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const isDetailPage = /^\/\d+$/.test(pathname ?? "");
+
+  const toggleMobileSidebar = () => {
+    //상세 페이지인 경우 params을 유지한 채로 홈 화면으로 리다이렉트
+    if (isDetailPage) {
+      selectPage("contact");
+      closeSidebar();
+      router.push(`/?${searchParams.toString()}`);
+    } else {
+      toggleSidebar();
+    }
+  };
 
   return (
     <header className="sticky top-0 border-r shrink-0 font-inter text-gray text-m desktop:px-margin h-headerH border-b border-px border-gray z-50 bg-black">
@@ -57,7 +75,7 @@ export function Header() {
         <button
           type="button"
           className="block desktop:hidden relative inset-0 w-spacing-40 h-spacing-40 -right-spacing-40 z-50 cursor-pointer"
-          onClick={toggleSidebar}
+          onClick={toggleMobileSidebar}
         >
           <span
             className={clsx(
