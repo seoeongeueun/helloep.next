@@ -45,7 +45,7 @@ export default function Caption() {
               size === 0,
           },
           {
-            "max-h-96 min-h-1/2 duration-100": size === 1,
+            "max-h-2/3 min-h-1/2 duration-100": size === 1,
           },
           {
             "max-h-full h-full duration-100": size === 2,
