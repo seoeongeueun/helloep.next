@@ -36,7 +36,7 @@ export function AppStateProvider({ children }: AppStateProviderProps) {
   const [language, setLanguage] = useState<LanguageMode>("ko"); //디폴트는 국문
   const [sidebarMode, setSidebarMode] = useState<SidebarMode>({
     mode: "page",
-    slug: "cv",
+    slug: "contact",
   });
   const [viewMode, setViewMode] = useState<ViewMode>("grid"); //디폴트는 그리드 뷰
 
