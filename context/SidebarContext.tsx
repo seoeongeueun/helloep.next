@@ -8,9 +8,6 @@ import React, {
   type ReactNode,
 } from "react";
 
-// 모바일용 사이드바 상태 관리 context
-type SidebarDirection = "horizontal" | "vertical";
-
 interface SidebarState {
   isOpen: boolean;
   isMobile: boolean;
@@ -21,6 +18,7 @@ interface SidebarContextType {
   isMobile: boolean;
   toggleSidebar: () => void;
   closeSidebar: () => void;
+  openSidebar: () => void;
 }
 
 const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
@@ -48,7 +46,7 @@ export function SidebarProvider({
       setState((prev) => ({
         ...prev,
         isMobile: !isDesktop,
-        isOpen: isDesktop ? true : prev.isOpen, // Desktop에서는 무조건 열림
+        isOpen: isDesktop ? true : false, // Desktop에서는 무조건 열림, Mobile에서는 무조건 닫힘
       }));
     };
 
@@ -58,7 +56,7 @@ export function SidebarProvider({
     setState((prev) => ({
       ...prev,
       isMobile: !isDesktop,
-      isOpen: isDesktop ? true : prev.isOpen,
+      isOpen: isDesktop ? true : defaultOpen, // Desktop에서는 무조건 열림, Mobile에서는 defaultOpen 사용
     }));
 
     mediaQuery.addEventListener("change", handleMediaQueryChange);
@@ -80,11 +78,18 @@ export function SidebarProvider({
     setState((prev) => ({ ...prev, isOpen: false }));
   };
 
+  const openSidebar = () => {
+    if (!state.isMobile) return;
+
+    setState((prev) => ({ ...prev, isOpen: true }));
+  };
+
   const value: SidebarContextType = {
     isOpen: state.isOpen,
     isMobile: state.isMobile,
     toggleSidebar,
     closeSidebar,
+    openSidebar,
   };
 
   return (
