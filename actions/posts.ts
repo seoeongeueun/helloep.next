@@ -22,12 +22,13 @@ type GetPostsParams = {
   page?: number;
   search?: string;
   categoryId?: number;
+  tagId?: number;
 };
 
 export async function getPosts(
   params: GetPostsParams = {},
 ): Promise<PostListResponse> {
-  const { perPage = POSTS_PER_PAGE, page = 1, search, categoryId } = params;
+  const { perPage = POSTS_PER_PAGE, page = 1, search, categoryId, tagId } = params;
   let data: WPApiResponse | WPPost[];
   let totalFromHeader: number | null = null;
   let totalPagesFromHeader: number | null = null;
@@ -41,6 +42,8 @@ export async function getPosts(
     if (search?.trim()) query.set("search", search.trim());
     if (typeof categoryId === "number")
       query.set("categories", String(categoryId));
+    if (typeof tagId === "number")
+      query.set("tags", String(tagId));
 
     //검색어 검색 범위를 제목+클라이언트(excerpt) 제한
     //본문으로는 검색하지 않는다.

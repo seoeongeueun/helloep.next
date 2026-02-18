@@ -17,7 +17,6 @@ export function Dropdown() {
   const selectedYear = searchParams.get("year");
 
   const handleTagSelect = (tagName: string) => {
-    console.log(tagName);
     const params = new URLSearchParams(searchParams.toString());
     params.set("year", tagName);
     params.delete("page"); // 페이지 리셋
